@@ -54,6 +54,7 @@ export default defineConfig({
     // 4. 导航栏配置 (navbar 改为 nav)
     nav: [
       { text: '首页', link: '/' },
+      { text: '模拟电路', link: '/analog/' },
       { text: '微控制器', link: '/microcontrollers/' },
       { text: 'FPGA', link: '/fpga/' },
       { text: '传感器', link: '/sensors/' },
@@ -63,6 +64,16 @@ export default defineConfig({
 
     // 5. 侧边栏配置
     sidebar: {
+      '/analog/': [
+        {
+          text: '模拟电路',
+          collapsed: false,
+          items: [
+            { text: '概述', link: '/analog/' },
+            { text: 'AC 耦合', link: '/analog/ac-coupling' },
+          ],
+        },
+      ],
       '/microcontrollers/': [
         {
           text: '微控制器 (MCU)',
