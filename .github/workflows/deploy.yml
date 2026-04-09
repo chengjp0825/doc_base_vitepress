@@ -1,40 +1,43 @@
-name: Deploy VuePress to VPS
+name: NoteHub Auto Deployment
 
-# 触发条件：当你推送到 main 分支时自动跑这个脚本
 on:
   push:
     branches:
-      - main
-      - master # 如果你的项目主分支叫 master 则兼容处理
+      - main  # 仅在推送到主分支时触发
 
 jobs:
-  build-and-deploy:
-    runs-name: Deploy Job
+  deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: 检出仓库代码
-        uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-      - name: 设置 Node.js 环境
-        uses: actions/setup-node@v3
+      - name: Execute Remote Deployment via SSH
+        uses: appleboy/ssh-action@v1.0.3
         with:
-          node-version: '20' # 设置你构建所需要的 Node 版本
-          cache: 'npm'
-
-      - name: 安装项目依赖
-        run: npm ci || npm install
-
-      - name: 编译并生成静态文件夹
-        run: npm run docs:build
-
-      - name: 同步生成目录到云服务器
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          source: "docs/.vuepress/dist/*"
-          # strip_components 确保把 dist 里面的深层文件拍扁扔进目标目录
-          strip_components: 3
-          target: "/var/www/vuepress"
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            # 1. 进入定义路径
+            cd ~/GITHUB/NoteHub
+            
+            # 2. 拉取最新代码
+            git pull origin main
+            
+            # 3. 构建镜像 (基于项目内 Dockerfile)
+            sudo docker build -t note-hub:latest .
+            
+            # 4. 滚动更新容器
+            # 停止并移除旧容器，-f 确保即使容器不存在也不会报错导致流程中断
+            sudo docker rm -f vitepress-site || true
+            
+            # 5. 启动新容器（严格执行 127.0.0.1 端口绑定策略）
+            sudo docker run -d \
+              --name vitepress-site \
+              -p 127.0.0.1:8080:80 \
+              --restart always \
+              note-hub:latest
+            
+            # 6. 验证容器状态
+            sudo docker ps -f name=vitepress-site
