@@ -1,0 +1,40 @@
+name: Deploy VuePress to VPS
+
+# 触发条件：当你推送到 main 分支时自动跑这个脚本
+on:
+  push:
+    branches:
+      - main
+      - master # 如果你的项目主分支叫 master 则兼容处理
+
+jobs:
+  build-and-deploy:
+    runs-name: Deploy Job
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 检出仓库代码
+        uses: actions/checkout@v3
+
+      - name: 设置 Node.js 环境
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20' # 设置你构建所需要的 Node 版本
+          cache: 'npm'
+
+      - name: 安装项目依赖
+        run: npm ci || npm install
+
+      - name: 编译并生成静态文件夹
+        run: npm run docs:build
+
+      - name: 同步生成目录到云服务器
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          source: "docs/.vuepress/dist/*"
+          # strip_components 确保把 dist 里面的深层文件拍扁扔进目标目录
+          strip_components: 3
+          target: "/var/www/vuepress"

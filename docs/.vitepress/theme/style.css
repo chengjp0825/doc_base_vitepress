@@ -1,0 +1,41 @@
+/* docs/.vitepress/theme/style.css */
+
+:root {
+  /* 修改主题强调色：原本是绿色，改为截图中的科技蓝 */
+  --vp-c-brand-1: #3b82f6;
+  --vp-c-brand-2: #60a5fa;
+  --vp-c-brand-3: #93c5fd;
+}
+
+.dark {
+  /* 将深色模式的背景调整为更深邃的纯黑色 */
+  --vp-c-bg: #0a0a0a;
+  --vp-c-bg-alt: #121212;
+  --vp-c-bg-elv: #1a1a1a;
+
+  /* 侧边栏和顶部导航栏背景也改为纯黑 */
+  --vp-sidebar-bg-color: #0a0a0a;
+  --vp-nav-bg-color: #0a0a0a;
+}
+
+/* 调整提示框 (Info Block) 的样式，匹配截图中的蓝色边框和浅蓝背景 */
+.custom-block.info {
+  border-color: #3b82f6;
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+/* 让八股拷打框里的解析面板看起来更像参考答案 */
+.custom-block.warning details {
+  background-color: var(--vp-c-bg-alt);
+  /* 稍微深一点的背景 */
+  border-left: 4px solid var(--vp-c-brand-1);
+  /* 左侧加上你的科技蓝指示条 */
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  margin-top: 1rem;
+}
+
+.custom-block.warning details summary {
+  font-weight: bold;
+  color: var(--vp-c-brand-1);
+}
