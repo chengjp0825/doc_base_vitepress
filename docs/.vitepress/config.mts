@@ -70,6 +70,7 @@ export default withMermaid({
           items: [
             { text: '概述', link: '/analog/' },
             { text: 'AC 耦合', link: '/analog/ac-coupling' },
+            { text: '模块建设中', link: '/analog/under-construction' },
           ],
         },
       ],
