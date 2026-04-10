@@ -5,7 +5,7 @@ import { withMermaid } from 'vitepress-plugin-mermaid'
 // 注意：这里直接 export withMermaid，不再在内部嵌套 defineConfig
 export default withMermaid({
   lang: 'zh-CN',
-  title: 'Notes Hub',
+  title: 'Note Hub',
   description: '电子工程师的芯片笔记与技术分享',
 
   // 1. 引入 KaTeX 的 CSS
@@ -31,6 +31,11 @@ export default withMermaid({
       text: '最后更新于'
     },
 
+    outline: {
+      level: [2, 3],
+      label: 'On this page' // 可选：自定义大纲标题
+    },
+
     // 3. 开启本地搜索
     search: {
       provider: 'local',
@@ -53,7 +58,7 @@ export default withMermaid({
     // 4. 导航栏配置
     nav: [
       { text: '首页', link: '/' },
-      { text: '模拟电路', link: '/analog/' },
+      { text: '你应该知道', link: '/should-know/' },
       { text: '微控制器', link: '/microcontrollers/' },
       { text: 'FPGA', link: '/fpga/' },
       { text: '传感器', link: '/sensors/' },
@@ -63,15 +68,23 @@ export default withMermaid({
 
     // 5. 侧边栏配置
     sidebar: {
-      '/analog/': [
+      '/should-know/': [
+        {
+          text: '你应该知道',
+          collapsed: false,
+          items: [
+            { text: '概述', link: '/should-know/' },
+            { text: 'AC 耦合', link: '/should-know/ac-coupling' },
+          ],
+        },
         {
           text: '模拟电路',
           collapsed: false,
           items: [
-            { text: '概述', link: '/analog/' },
-            { text: 'AC 耦合', link: '/analog/ac-coupling' },
+            { text: '运算放大器', link: '/should-know/operational-amplifiers' },
+            { text: '滤波器设计', link: '/should-know/filter-design' },
           ],
-        },
+        }
       ],
       '/microcontrollers/': [
         {
