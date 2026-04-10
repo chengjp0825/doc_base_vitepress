@@ -58,30 +58,62 @@ export default withMermaid({
     // 4. 导航栏配置
     nav: [
       { text: '首页', link: '/' },
-      { text: '你应该知道', link: '/should-know/' },
+      { text: '那我问你', link: '/interview-questions/' },
+      { text: '你知道的', link: '/should-know/' },
       { text: '微控制器', link: '/microcontrollers/' },
       { text: 'FPGA', link: '/fpga/' },
-      { text: '传感器', link: '/sensors/' },
-      { text: '电源管理', link: '/power/' },
       { text: '通信协议', link: '/protocols/' },
     ],
 
     // 5. 侧边栏配置
     sidebar: {
+      '/interview-questions/': [
+        {
+          text: '那我问你',
+          link: '/interview-questions/'
+        },
+        {
+          text: 'LINUX 开发',
+          collapsed: false,
+          base: '/interview-questions/',
+          items: [
+            { text: 'Linux驱动开发', link: 'linux-driver' },
+            { text: 'Linux应用开发', link: 'linux-app' }
+          ],
+        },
+        {
+          text: 'FPGA 开发',
+          collapsed: true,
+          base: '/interview-questions/',
+          items: [
+            { text: 'FPGA开发', link: 'fpga' },
+          ],
+        },
+        {
+          text: '其它',
+          collapsed: true,
+          base: '/interview-questions/',
+          items: [
+            { text: 'C/C++编程', link: 'cpp' },
+            { text: '通信协议', link: 'protocols' },
+            { text: '硬件设计', link: 'hardware' },
+          ],
+        },
+      ],
       '/should-know/': [
         {
           text: '你应该知道',
           collapsed: false,
           items: [
             { text: '概述', link: '/should-know/' },
-            { text: 'AC 耦合', link: '/should-know/ac-coupling' },
+            
           ],
         },
         {
-          text: '模拟电路',
+          text: 'SI/PI 信号与电源完整性',
           collapsed: false,
           items: [
-            { text: '运算放大器', link: '/should-know/operational-amplifiers' },
+            { text: 'AC 耦合', link: '/should-know/ac-coupling' },
             { text: '滤波器设计', link: '/should-know/filter-design' },
           ],
         }
@@ -94,26 +126,6 @@ export default withMermaid({
             { text: '概述', link: '/microcontrollers/' },
             { text: 'STM32G0', link: '/microcontrollers/stm32g0' },
             { text: 'ESP32', link: '/microcontrollers/esp32' },
-          ],
-        },
-      ],
-      '/sensors/': [
-        {
-          text: '常用传感器',
-          collapsed: false,
-          items: [
-            { text: '概述', link: '/sensors/' },
-            { text: 'BME280', link: '/sensors/bme280' },
-          ],
-        },
-      ],
-      '/power/': [
-        {
-          text: '电源管理',
-          collapsed: false,
-          items: [
-            { text: '概述', link: '/power/' },
-            { text: 'LDO 线性稳压器', link: '/power/ldo' },
           ],
         },
       ],

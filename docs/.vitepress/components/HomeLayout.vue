@@ -102,6 +102,29 @@ const executeCommand = async () => {
     </div>
 
     <div class="geek-section">
+      <h2 class="section-title">专业装备 (Professional Equipment)</h2>
+      <div class="section-subtitle">> ALERT: 装备这些模组，化身赛博修理铺的合格技师</div>
+
+      <div class="module-grid">
+        <div class="module-card card-interview">
+          <span class="module-bg-code">🎯</span>
+          <span class="module-badge">Interview Prep</span>
+          <h3>那我问你</h3>
+          <p>面试官的终极拷问模拟器。从 Linux 驱动黑洞到 FPGA 时序地狱，从 C++ 模板魔法到通信协议死锁。每个问题都有标准答案 + 深度解析，拒绝在关键时刻掉链子。</p>
+          <a href="/interview-questions/" class="module-link">进入模拟战 →</a>
+        </div>
+
+        <div class="module-card card-knowledge">
+          <span class="module-bg-code">📚</span>
+          <span class="module-badge">Foundation</span>
+          <h3>你知道的</h3>
+          <p>那些"本该知道却总是忘记"的硬核基础。从 AC 耦合原理到运算放大器陷阱，从滤波器设计到信号完整性。不是教科书式的背诵，而是工程师在板子上碰壁后总结的血泪经验。</p>
+          <a href="/should-know/" class="module-link">查阅设定集 →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="geek-section">
       <h2 class="section-title">服务器联机增益</h2>
       <div class="section-subtitle">> STATUS: 告别单机闭门造车，已为你接通硬核火力支援</div>
 
@@ -271,6 +294,96 @@ const executeCommand = async () => {
 }
 
 /* =========================================
+   专业装备 (Professional Equipment) - 专业板块
+   ========================================= */
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--bento-gap);
+  margin-bottom: 2rem;
+}
+
+.module-card {
+  background: var(--vp-c-bg-soft);
+  border: 1px solid var(--vp-c-border);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.module-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--vp-c-brand-1);
+  box-shadow: 0 12px 32px rgba(var(--vp-button-brand-bg), 0.1);
+}
+
+.module-badge {
+  display: inline-block;
+  padding: 0.2rem 0.8rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 20px;
+  background: var(--vp-c-default-soft);
+  color: var(--vp-c-brand-1);
+  margin-bottom: 1rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+}
+
+.module-card h3 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  font-family: inherit;
+}
+
+.module-card p {
+  color: var(--vp-c-text-2);
+  font-size: 0.98rem;
+  line-height: 1.75;
+  margin: 0 0 1.5rem 0;
+  font-family: inherit;
+}
+
+.module-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--vp-c-brand-1);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: color var(--transition-fast);
+}
+
+.module-link:hover {
+  color: var(--vp-c-brand-2);
+}
+
+.module-link::after {
+  content: '→';
+  transition: transform var(--transition-fast);
+}
+
+.module-link:hover::after {
+  transform: translateX(4px);
+}
+
+/* 装饰性底层代码水印 */
+.module-bg-code {
+  position: absolute;
+  right: -10px;
+  bottom: -20px;
+  font-size: 6rem;
+  opacity: 0.03;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  pointer-events: none;
+  font-weight: 900;
+  line-height: 1;
+}
+
+/* =========================================
    联机增益 (社区优势) - 悬浮词条
    ========================================= */
 .buff-grid {
@@ -381,7 +494,9 @@ const executeCommand = async () => {
 @media (max-width: 768px) {
   .bento-grid { grid-template-columns: 1fr; }
   .card-tutorials, .card-howto, .card-explain, .card-reference { grid-column: span 1; grid-row: auto; }
+  .module-grid { grid-template-columns: 1fr; }
   .terminal-wrapper { display: none; }
+  .action-console { display: none; }
   .mobile-cta { display: block; }
 }
 </style>
