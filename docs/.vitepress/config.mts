@@ -1,7 +1,9 @@
 import { defineConfig } from 'vitepress'
 import markdownItKatex from 'markdown-it-katex'
+import { withMermaid } from 'vitepress-plugin-mermaid'
 
-export default defineConfig({
+// 注意：这里直接 export withMermaid，不再在内部嵌套 defineConfig
+export default withMermaid({
   lang: 'zh-CN',
   title: 'Notes Hub',
   description: '电子工程师的芯片笔记与技术分享',
@@ -11,39 +13,36 @@ export default defineConfig({
     ['link', { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css' }]
   ],
 
-  // 2. 配置 Markdown 插件 (替换 extendsMarkdown)
+  // 2. 配置 Markdown 插件
   markdown: {
     config: (md) => {
       md.use(markdownItKatex)
     }
   },
 
+  // Mermaid 插件配置 (可选自定义)
+  mermaid: {
+    // 这里可以根据需要配置主题，例如 'dark' 或 'default'
+  },
+
   themeConfig: {
-    logo: '/logo.svg', // <-- 在这里添加这一行，指向 docs/public/ 下的文件
-    // VitePress 默认不显示贡献者，开启最后更新时间需要在配置和 Markdown 文件中调整
+    logo: '/logo.svg', 
     lastUpdated: {
       text: '最后更新于'
     },
 
-    // 3. 开启本地搜索 (替换 searchPlugin)
+    // 3. 开启本地搜索
     search: {
       provider: 'local',
       options: {
         locales: {
           root: {
             translations: {
-              button: {
-                buttonText: '搜索',
-                buttonAriaLabel: '搜索'
-              },
+              button: { buttonText: '搜索', buttonAriaLabel: '搜索' },
               modal: {
                 noResultsText: '无法找到相关结果',
                 resetButtonTitle: '清除查询条件',
-                footer: {
-                  selectText: '选择',
-                  navigateText: '切换',
-                  closeText: '关闭'
-                }
+                footer: { selectText: '选择', navigateText: '切换', closeText: '关闭' }
               }
             }
           }
@@ -51,7 +50,7 @@ export default defineConfig({
       }
     },
 
-    // 4. 导航栏配置 (navbar 改为 nav)
+    // 4. 导航栏配置
     nav: [
       { text: '首页', link: '/' },
       { text: '模拟电路', link: '/analog/' },
@@ -59,7 +58,7 @@ export default defineConfig({
       { text: 'FPGA', link: '/fpga/' },
       { text: '传感器', link: '/sensors/' },
       { text: '电源管理', link: '/power/' },
-      { text: '通信协议', link: '/protocols/' }, // VitePress 推荐省略 .html 或 .md 后缀
+      { text: '通信协议', link: '/protocols/' },
     ],
 
     // 5. 侧边栏配置
@@ -77,9 +76,9 @@ export default defineConfig({
       '/microcontrollers/': [
         {
           text: '微控制器 (MCU)',
-          collapsed: false, // collapsible 改为 collapsed
-          items: [          // children 改为 items
-            { text: '概述', link: '/microcontrollers/' }, // 指向 README.md
+          collapsed: false,
+          items: [
+            { text: '概述', link: '/microcontrollers/' },
             { text: 'STM32G0', link: '/microcontrollers/stm32g0' },
             { text: 'ESP32', link: '/microcontrollers/esp32' },
           ],
