@@ -9,4 +9,3 @@ icon: waveform
 
 ## 章节内容
 - [AC 耦合](./ac-coupling.md)
-- [模块建设中](./under-construction.md)
