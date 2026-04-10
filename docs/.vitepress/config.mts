@@ -116,6 +116,13 @@ export default withMermaid({
             { text: 'AC 耦合', link: '/should-know/ac-coupling' },
             { text: '滤波器设计', link: '/should-know/filter-design' },
           ],
+        },
+        {
+          text: 'Git 版本控制',
+          collapsed: false,
+          items: [
+            { text: 'Github CI/CD', link: '/should-know/github-ci-cd' },
+          ],
         }
       ],
       '/microcontrollers/': [

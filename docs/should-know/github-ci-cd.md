@@ -61,10 +61,6 @@ jobs:
           push: true # 构建完成后立刻执行 push 动作
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest # 简单粗暴，永远覆盖 latest (最新) 标签
 
-          # type=gha 表示使用 GitHub Actions 的原生缓存，能把构建时间从几分钟缩短到十几秒
-          cache-from: type=gha 
-          cache-to: type=gha,mode=max # mode=max 意味着缓存所有层，不仅是最终镜像
-
   # ==========================================
   # 阶段二：登录服务器拉取镜像并重启服务
   # ==========================================
