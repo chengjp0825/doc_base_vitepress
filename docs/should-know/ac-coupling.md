@@ -4,6 +4,8 @@ icon: wave-square
 ---
 # AC 耦合技术文档
 
+![测试用meishi](http://picbed.moongazer.cn/hub/Test.JPG)
+
 ## 1. 什么是 AC 耦合
 
 在电子信号传输中，一个电压信号可以分解为**直流分量（DC）**和**交流分量（AC）**两部分。直流分量是信号的静态偏置电平，交流分量是其中随时间变化的部分。
