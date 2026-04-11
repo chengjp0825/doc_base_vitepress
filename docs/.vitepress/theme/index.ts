@@ -1,8 +1,14 @@
 // docs/.vitepress/theme/index.ts
 import DefaultTheme from 'vitepress/theme'
-import './style.css' // 引入我们自定义的 CSS 文件
+import mediumZoom from 'medium-zoom'
+import './style.css'
 
 export default {
   extends: DefaultTheme,
-  // 如果以后需要扩展 Vue 组件或功能，也会写在这里
+  enhanceApp({ app }) {
+    mediumZoom('img', {
+      margin: 24,
+      background: 'rgba(0,0,0,0.85)'
+    })
+  }
 }
