@@ -126,3 +126,129 @@
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.03); }
 }
+
+/* =========================================
+   全局极简表格样式 (高仿 Claude 风格)
+   极大削弱边框存在感，提升视觉呼吸感
+   ========================================= */
+.vp-doc table {
+  display: table !important;
+  width: 100% !important;
+  border-collapse: collapse !important;
+  margin: 2rem 0 !important;
+  border: none !important;
+  background-color: transparent !important;
+}
+
+.vp-doc tr {
+  background-color: transparent !important;
+  border-top: none !important;
+  transition: background-color 0.2s ease;
+}
+
+.vp-doc tr:nth-child(2n) {
+  background-color: transparent !important; /* 断绝默认斑马纹 */
+}
+
+.vp-doc tr:hover {
+  background-color: var(--vp-c-bg-soft) !important;
+}
+
+.vp-doc th,
+.vp-doc td {
+  border: none !important;
+  border-bottom: 1px solid var(--vp-c-divider) !important;
+  padding: 16px 20px !important;
+  text-align: left !important;
+}
+
+.vp-doc th {
+  font-weight: 600 !important;
+  color: var(--vp-c-text-1) !important;
+  font-size: 0.9em !important;
+  background-color: transparent !important; /* 强制干掉 VitePress 默认给表头加的浅色背景 */
+  border-bottom: 2px solid var(--vp-c-divider) !important;
+}
+
+.vp-doc tr:last-child th,
+.vp-doc tr:last-child td {
+  border-bottom: none !important; /* 最后一行去掉底部细线 */
+}
+
+.vp-doc td {
+  color: var(--vp-c-text-2) !important;
+  font-size: 0.95em !important;
+  line-height: 1.6 !important;
+}
+
+/* 第一列去掉左内边距以对齐左侧内容，并且将其内容始终加粗显示 */
+.vp-doc th:first-child,
+.vp-doc td:first-child {
+  padding-left: 0 !important; 
+}
+
+.vp-doc td:first-child {
+  font-weight: 600 !important;
+  color: var(--vp-c-text-1) !important; /* 让第一列颜色比普通数据列稍微亮白一点 */
+}
+
+/* 最后一列去掉右内边距 */
+.vp-doc th:last-child,
+.vp-doc td:last-child {
+  padding-right: 0 !important;
+}
+
+/* =========================================
+   代码块极简风格 (高仿 Claude 面板)
+   ========================================= */
+
+/* 代码块大外框：高圆角与极微妙的边框 */
+.vp-doc div[class*="language-"] {
+  border-radius: 12px !important;
+  border: 1px solid var(--vp-c-divider) !important;
+  margin: 1.5rem 0 !important;
+  background-color: var(--vp-code-block-bg) !important;
+}
+
+/* 深色模式下的底色调整，更贴近 Claude */
+.dark .vp-doc div[class*="language-"] {
+  background-color: #121212 !important; 
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* 右上角原生功能调整：仅留 Copy 按钮，消除异物感 */
+.vp-doc div[class*="language-"] > button.copy {
+  right: 12px !important;
+  top: 8px !important;
+  color: var(--vp-c-text-2) !important;
+  border-radius: 6px !important;
+  background-color: transparent !important;
+  border: none !important;
+  transition: all 0.2s;
+  z-index: 3;
+}
+.vp-doc div[class*="language-"] > button.copy:hover {
+  background-color: var(--vp-c-bg-soft) !important;
+  color: var(--vp-c-text-1) !important;
+}
+
+/* 强制语言标签移至左上角，充当 Title 栏角色 */
+.vp-doc div[class*="language-"] > span.lang {
+  top: 12px !important;
+  left: 16px !important;
+  right: auto !important;
+  font-size: 0.85em !important;
+  font-weight: 600 !important;
+  color: var(--vp-c-text-2) !important;
+  opacity: 1 !important; /* 始终显示，而不是悬浮才显示 */
+  position: absolute;
+  z-index: 2;
+}
+
+/* 为左上方的 Title 预留出呼吸空间 */
+.vp-doc div[class*="language-"] pre {
+  padding-top: 42px !important;
+  padding-bottom: 16px !important;
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+}

@@ -1,9 +1,10 @@
 <script setup>
-import { nextTick, ref } from 'vue'
+import { nextTick, ref, onMounted } from 'vue'
 
 const terminalInput = ref(null)
 const terminalBody = ref(null)
 const currentCommand = ref('')
+const isLoaded = ref(false)
 
 const terminalLogs = ref([
   { type: 'info', text: 'NoteHub OS v1.0.0 (x86_64-linux-gnu)' },
@@ -11,6 +12,10 @@ const terminalLogs = ref([
   { type: 'warn', text: '警告：检测到野生 Bug。你的每一次 Commit 都在拯救同门。' },
   { type: 'success', text: '输入 `help` 查看可用命令，或输入 `join` 获取联机大厅坐标。' }
 ])
+
+onMounted(() => {
+  setTimeout(() => { isLoaded.value = true }, 80)
+})
 
 const focusInput = () => {
   if (terminalInput.value)
@@ -39,8 +44,8 @@ const executeCommand = async () => {
     case 'join':
       terminalLogs.value.push(
         { type: 'success', text: '>_ 正在生成跃迁门...' },
-        { type: 'info', text: '🔗 GitHub 仓库: https://github.com/你的用户名/NoteHub' },
-        { type: 'info', text: '💬 交流群入口: [在此处替换为二维码或链接]' }
+        { type: 'info', text: 'GitHub 仓库: https://github.com/你的用户名/NoteHub' },
+        { type: 'info', text: '交流群入口: [在此处替换为二维码或链接]' }
       )
       break
     case 'buffs':
@@ -65,130 +70,225 @@ const executeCommand = async () => {
 </script>
 
 <template>
-  <div class="geek-home-container">
-    <div class="geek-section">
-      <h2 class="section-title">知识收容协议 (Diátaxis)</h2>
-      <div class="section-subtitle">> SYSTEM INFO: 结构化挂载中，确保排障时不再像无头苍蝇乱撞</div>
+  <div class="home-container" :class="{ loaded: isLoaded }">
 
-      <div class="bento-grid">
-        <div class="bento-card card-tutorials">
-          <span class="bento-bg-code">01</span>
-          <span class="bento-badge">Learning / Action</span>
-          <h3>主线通关 (Tutorials)</h3>
+    <!-- Dot grid background -->
+    <div class="dot-grid" aria-hidden="true"></div>
+
+    <!-- HERO -->
+    <section class="hero">
+      <!-- Circuit decoration SVG -->
+      <svg class="circuit-deco" viewBox="0 0 400 340" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <!-- Trace 1: top-right horizontal -->
+        <path class="trace" d="M 280 40 L 360 40 L 360 80 L 310 80" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="310" cy="80" r="3" class="node"/>
+        <circle cx="360" cy="40" r="3" class="node"/>
+
+        <!-- Trace 2: right side vertical with branches -->
+        <path class="trace" d="M 360 80 L 360 140 L 320 140 L 320 180" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="320" cy="180" r="3" class="node"/>
+
+        <!-- Trace 3: horizontal going left -->
+        <path class="trace" d="M 200 180 L 240 180 L 240 220 L 360 220 L 360 260" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="200" cy="180" r="3" class="node"/>
+        <circle cx="360" cy="260" r="3" class="node"/>
+
+        <!-- Trace 4: bottom left branch -->
+        <path class="trace" d="M 200 180 L 200 260 L 160 260 L 160 300" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="160" cy="300" r="3" class="node"/>
+
+        <!-- Trace 5: small chip outline -->
+        <rect x="270" y="30" width="50" height="35" rx="3" class="chip-box" stroke-width="1.2"/>
+        <path class="trace" d="M 275 30 L 275 20 L 290 20" stroke-width="1.2" stroke-linecap="round"/>
+        <path class="trace" d="M 295 30 L 295 20 L 315 20" stroke-width="1.2" stroke-linecap="round"/>
+        <path class="trace" d="M 320 30 L 320 20 L 330 20" stroke-width="1.2" stroke-linecap="round"/>
+        <path class="trace" d="M 275 65 L 275 75 L 290 75" stroke-width="1.2" stroke-linecap="round"/>
+        <path class="trace" d="M 315 65 L 315 75 L 330 75" stroke-width="1.2" stroke-linecap="round"/>
+
+        <!-- Trace 6: scattered dots/nodes -->
+        <circle cx="100" cy="60" r="2.5" class="node"/>
+        <circle cx="100" cy="60" r="6" class="node-ring"/>
+        <circle cx="140" cy="120" r="2.5" class="node"/>
+        <path class="trace" d="M 100 60 L 120 60 L 120 120 L 140 120" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+
+        <circle cx="80" cy="200" r="2.5" class="node"/>
+        <circle cx="50" cy="200" r="2.5" class="node"/>
+        <path class="trace" d="M 50 200 L 80 200" stroke-width="1" stroke-linecap="round"/>
+
+        <!-- Additional subtle traces -->
+        <path class="trace trace-faint" d="M 340 120 L 380 120 L 380 160" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="380" cy="160" r="2" class="node node-small"/>
+      </svg>
+
+      <div class="hero-inner">
+        <div class="hero-eyebrow">
+          <span class="eyebrow-dot"></span>
+          电子工程师的芯片笔记
+        </div>
+        <h1 class="hero-title">NoteHub</h1>
+        <p class="hero-lead">别在 DataSheet 里单排了，这儿有活人。</p>
+        <p class="hero-sub">基于 Diátaxis 架构的赛博修理铺。拒绝纸上谈兵，专治底层协议死锁、MCU 漏电，以及面试官的无理取闹。</p>
+        <div class="hero-actions">
+          <a href="/microcontrollers/" class="btn btn-primary">接入节点</a>
+          <a href="/interview-questions/" class="btn btn-secondary">接受拷打</a>
+          <a href="/CONTRIBUTING" class="btn btn-ghost">投稿规范</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- DIATAXIS GRID -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-label">// 知识收容协议</div>
+        <h2 class="section-title">Diátaxis 四象限</h2>
+        <p class="section-desc">确保排障时不再像无头苍蝇乱撞。每个内容都有明确的用途和学习路径。</p>
+      </div>
+
+      <div class="quad-grid">
+        <div class="quad-card quad-large" style="--delay: 0">
+          <div class="quad-meta">
+            <span class="quad-num">01</span>
+            <span class="quad-tag tag-blue">Learning · Action</span>
+          </div>
+          <h3>主线通关</h3>
           <p>带你从点亮第一颗 LED 到手搓 Linux 驱动底层架构的完整闭环。绝不卖关子，全是经过示波器验证的干货。</p>
+          <div class="quad-bar bar-blue"></div>
         </div>
 
-        <div class="bento-card card-howto">
-          <span class="bento-bg-code">02</span>
-          <span class="bento-badge">Working / Action</span>
-          <h3>救火手册 (How-to)</h3>
-          <p>深夜排查 GT 收发器死锁？I2C 挂载无响应？<br><br>别急着摔板子，这里提供针对真实翻车现场的精准排错 SOP，直接抄作业。</p>
+        <div class="quad-card quad-tall" style="--delay: 1">
+          <div class="quad-meta">
+            <span class="quad-num">02</span>
+            <span class="quad-tag tag-orange">Working · Action</span>
+          </div>
+          <h3>救火手册</h3>
+          <p>深夜排查 GT 收发器死锁？I2C 挂载无响应？别急着摔板子，这里提供针对真实翻车现场的精准排错 SOP，直接抄作业。</p>
+          <div class="quad-bar bar-orange"></div>
         </div>
 
-        <div class="bento-card card-explain">
-          <span class="bento-bg-code">03</span>
-          <span class="bento-badge">Learning / Theory</span>
-          <h3>设定集 (Explanation)</h3>
+        <div class="quad-card" style="--delay: 2">
+          <div class="quad-meta">
+            <span class="quad-num">03</span>
+            <span class="quad-tag tag-green">Learning · Theory</span>
+          </div>
+          <h3>设定集</h3>
           <p>深挖底层逻辑与彩蛋。不仅要知其然，还要扒开 8b/10b 编解码背后那些隐秘的真相。</p>
+          <div class="quad-bar bar-green"></div>
         </div>
 
-        <div class="bento-card card-reference">
-          <span class="bento-bg-code">04</span>
-          <span class="bento-badge">Working / Theory</span>
-          <h3>物理外挂 (Reference)</h3>
+        <div class="quad-card quad-large" style="--delay: 3">
+          <div class="quad-meta">
+            <span class="quad-num">04</span>
+            <span class="quad-tag tag-purple">Working · Theory</span>
+          </div>
+          <h3>物理外挂</h3>
           <p>高频寄存器配置模板、引脚复用字典与 API 源码速查。拒绝繁文缛节，CV 工程师的快乐源泉。</p>
+          <div class="quad-bar bar-purple"></div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="geek-section">
-      <h2 class="section-title">专业装备 (Professional Equipment)</h2>
-      <div class="section-subtitle">> ALERT: 装备这些模组，化身赛博修理铺的合格技师</div>
-
-      <div class="module-grid">
-        <div class="module-card card-interview">
-          <span class="module-bg-code">🎯</span>
-          <span class="module-badge">Interview Prep</span>
-          <h3>那我问你</h3>
-          <p>面试官的终极拷问模拟器。从 Linux 驱动黑洞到 FPGA 时序地狱，从 C++ 模板魔法到通信协议死锁。每个问题都有标准答案 + 深度解析，拒绝在关键时刻掉链子。</p>
-          <a href="/interview-questions/" class="module-link">进入模拟战 →</a>
-        </div>
-
-        <div class="module-card card-knowledge">
-          <span class="module-bg-code">📚</span>
-          <span class="module-badge">Foundation</span>
-          <h3>你知道的</h3>
-          <p>那些"本该知道却总是忘记"的硬核基础。从 AC 耦合原理到运算放大器陷阱，从滤波器设计到信号完整性。不是教科书式的背诵，而是工程师在板子上碰壁后总结的血泪经验。</p>
-          <a href="/should-know/" class="module-link">查阅设定集 →</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="geek-section">
-      <h2 class="section-title">服务器联机增益</h2>
-      <div class="section-subtitle">> STATUS: 告别单机闭门造车，已为你接通硬核火力支援</div>
-
-      <div class="buff-grid">
-        <div class="buff-item">
-          <span class="buff-icon">🪦</span>
-          <h4>Bug 墓地 (掉 SAN 预警)</h4>
-          <p>埋葬着无数前辈的血泪史。从 FPGA 综合报错到 CML 串扰，看一眼少掉两根头发。</p>
-        </div>
-        <div class="buff-item">
-          <span class="buff-icon">🎯</span>
-          <h4>反向拷打指南</h4>
-          <p>重构你的底层逻辑。带入 C++ 架构的工程视角，面试时气场全开，让面试官怀疑人生。</p>
-        </div>
-        <div class="buff-item">
-          <span class="buff-icon">🔄</span>
-          <h4>永不宕机的 Patch</h4>
-          <p>发现文档有错或触及盲区？别忍着，直接提 PR 糊我脸上。一本由玩家共同进化的活文档。</p>
-        </div>
-        <div class="buff-item">
-          <span class="buff-icon">📈</span>
-          <h4>波形图社交</h4>
-          <p>屏蔽闲聊水群。逻辑分析仪截图和 PCB 走线就是这里的唯一货币，疑难杂症随时摇人。</p>
-        </div>
+    <!-- MODULES -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-label">// 专业装备</div>
+        <h2 class="section-title">两个核心入口</h2>
       </div>
 
-      <div class="mobile-cta">
-        <p>移动端已优化：隐藏终端展示，直接触达 PR 与群聊入口。</p>
-        <div class="mobile-cta-buttons">
-          <a href="https://github.com/你的用户名/NoteHub" class="term-btn btn-git" target="_blank">发起 PR</a>
-          <a href="#" class="term-btn btn-chat">加入群聊</a>
+      <div class="mod-grid">
+        <a href="/interview-questions/" class="mod-card" style="--delay: 4">
+          <div class="mod-icon">🎯</div>
+          <div class="mod-body">
+            <h3>那我问你</h3>
+            <p>面试官的终极拷问模拟器。从 Linux 驱动黑洞到 FPGA 时序地狱，从 C++ 模板魔法到通信协议死锁。每个问题都有标准答案 + 深度解析。</p>
+          </div>
+          <div class="mod-arrow">→</div>
+        </a>
+
+        <a href="/should-know/" class="mod-card" style="--delay: 5">
+          <div class="mod-icon">📚</div>
+          <div class="mod-body">
+            <h3>你知道的</h3>
+            <p>那些"本该知道却总是忘记"的硬核基础。从 AC 耦合原理到运算放大器陷阱，从滤波器设计到信号完整性。不是教科书式的背诵，而是工程师在板子上碰壁后总结的血泪经验。</p>
+          </div>
+          <div class="mod-arrow">→</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- COMMUNITY -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-label">// 服务器联机增益</div>
+        <h2 class="section-title">告别单机闭门造车</h2>
+        <p class="section-desc">已为你接通硬核火力支援，疑难杂症随时摇人。</p>
+      </div>
+
+      <div class="buff-row">
+        <div class="buff-item" style="--delay: 6">
+          <span class="buff-emoji">🪦</span>
+          <div class="buff-text">
+            <h4>Bug 墓地</h4>
+            <p>埋葬着无数前辈的血泪史。从 FPGA 综合报错到 CML 串扰，看一眼少掉两根头发。</p>
+          </div>
+        </div>
+        <div class="buff-item" style="--delay: 7">
+          <span class="buff-emoji">🎯</span>
+          <div class="buff-text">
+            <h4>反向拷打指南</h4>
+            <p>重构你的底层逻辑。带入 C++ 架构的工程视角，面试时气场全开。</p>
+          </div>
+        </div>
+        <div class="buff-item" style="--delay: 8">
+          <span class="buff-emoji">🔄</span>
+          <div class="buff-text">
+            <h4>永不宕机的 Patch</h4>
+            <p>发现文档有错？直接提 PR 糊我脸上。一本由玩家共同进化的活文档。</p>
+          </div>
+        </div>
+        <div class="buff-item" style="--delay: 9">
+          <span class="buff-emoji">📈</span>
+          <div class="buff-text">
+            <h4>波形图社交</h4>
+            <p>屏蔽闲聊水群。逻辑分析仪截图和 PCB 走线就是这里的唯一货币。</p>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="geek-section">
-      <div class="action-console">
-        <div class="console-head">
-          <div class="dots"><i></i><i></i><i></i></div>
-          <span>bash - notehub_join_raid.sh</span>
+    <!-- TERMINAL -->
+    <section class="section terminal-section">
+      <div class="section-header">
+        <div class="section-label">// 终端联机</div>
+        <h2 class="section-title">在本地完成所有操作</h2>
+        <p class="section-desc">仿佛置身真实的服务器机房。输入 <code class="inline-code">help</code> 开始。</p>
+      </div>
+
+      <div class="console">
+        <div class="console-titlebar">
+          <div class="console-dots"><i></i><i></i><i></i></div>
+          <span>bash — notehub_join_raid.sh</span>
+          <span class="console-status">● 在线</span>
         </div>
-
         <div class="console-body" ref="terminalBody" @click="focusInput">
           <div v-for="(log, index) in terminalLogs" :key="index" class="log-line">
             <template v-if="log.type === 'input'">
-              <span class="prompt">root@notehub:~#</span> <span class="cmd-text">{{ log.text }}</span>
+              <span class="log-prompt">root@notehub:~#</span> <span class="log-cmd">{{ log.text }}</span>
             </template>
             <template v-else-if="log.type === 'info'">
-              <span class="sys-msg">{{ log.text }}</span>
+              <span class="log-info">{{ log.text }}</span>
             </template>
             <template v-else-if="log.type === 'warn'">
-              <span class="sys-warn">{{ log.text }}</span>
+              <span class="log-warn">{{ log.text }}</span>
             </template>
             <template v-else-if="log.type === 'success'">
-              <span class="sys-success">{{ log.text }}</span>
+              <span class="log-ok">{{ log.text }}</span>
             </template>
           </div>
-
-          <div class="input-line">
-            <span class="prompt">root@notehub:~#</span>
-            <input 
+          <div class="input-row">
+            <span class="log-prompt">root@notehub:~#</span>
+            <input
               ref="terminalInput"
-              type="text" 
-              v-model="currentCommand" 
+              v-model="currentCommand"
               @keydown.enter="executeCommand"
               spellcheck="false"
               autocomplete="off"
@@ -196,307 +296,701 @@ const executeCommand = async () => {
           </div>
         </div>
       </div>
-    </div>
+
+      <div class="mobile-links">
+        <a href="https://github.com/你的用户名/NoteHub" class="btn btn-small btn-outline" target="_blank">发起 PR</a>
+        <a href="#" class="btn btn-small btn-outline">加入群聊</a>
+      </div>
+    </section>
+
   </div>
 </template>
 
 <style scoped>
 /* =========================================
-   全局极客风变量与动画
+   TOKENS — VitePress theme-aware + terminal fixed
    ========================================= */
-.geek-home-container {
-  --bento-gap: 1.5rem;
-  --radius-lg: 20px;
-  --transition-fast: 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
-  padding-bottom: 4rem;
-  font-family: Inter, 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+.home-container {
+  /* VitePress theme variables: automatically switch light/dark */
+  --bg:              var(--vp-c-bg);
+  --surface:         var(--vp-c-bg-soft);
+  --border:          var(--vp-c-border);
+  --border-light:    var(--vp-c-divider);
+  --text-1:          var(--vp-c-text-1);
+  --text-2:          var(--vp-c-text-2);
+  --text-3:          var(--vp-c-text-3);
+  --accent:          var(--vp-c-brand-1);
+  --accent-soft:     var(--vp-c-brand-soft);
+
+  /* Tag colors — light mode defaults */
+  --tag-blue-bg:     #eef3ff;
+  --tag-blue-text:   #2d5ba8;
+  --tag-orange-bg:   #fff3e6;
+  --tag-orange-text: #b35a1a;
+  --tag-green-bg:    #eefaf0;
+  --tag-green-text:  #2a7a42;
+  --tag-purple-bg:   #f5efff;
+  --tag-purple-text: #6b3a9e;
+  --green:           #27a05a;
+  --green-dim:       #d4eddf;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px var(--vp-c-shadow-1), 0 1px 2px var(--vp-c-shadow-2);
+  --shadow-md: 0 4px 12px var(--vp-c-shadow-1), 0 2px 4px var(--vp-c-shadow-2);
+  --shadow-lg: 0 12px 32px var(--vp-c-shadow-1), 0 4px 8px var(--vp-c-shadow-2);
+
+  /* Easing & layout */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --radius: 10px;
+  --radius-lg: 16px;
+  --font-sans:  var(--vp-font-family-smaller), var(--vp-font-family-base), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-serif: var(--vp-font-family-smaller), Georgia, 'Times New Roman', serif;
+  --font-mono:  var(--vp-font-family-smaller), ui-monospace, SFMono-Regular, 'Fira Code', Menlo, Monaco, Consolas, monospace;
+
+  background: var(--bg);
+  color: var(--text-1);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding-bottom: 5rem;
+  position: relative;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
-.geek-section {
-  max-width: 1000px;
-  margin: 5rem auto;
-  padding: 0 2rem;
+/* =========================================
+   DARK MODE — adjust tag colors for dark bg
+   ========================================= */
+.dark {
+  --tag-blue-bg:     rgba(45, 91, 168, 0.2);
+  --tag-blue-text:   #7aa8e8;
+  --tag-orange-bg:   rgba(179, 90, 26, 0.2);
+  --tag-orange-text: #e8a87a;
+  --tag-green-bg:    rgba(42, 122, 66, 0.2);
+  --tag-green-text:  #7ed49a;
+  --tag-purple-bg:   rgba(107, 58, 158, 0.2);
+  --tag-purple-text: #b084e8;
+  --green:           #4ade80;
+  --green-dim:       rgba(74, 222, 128, 0.15);
+}
+
+/* =========================================
+   DOT GRID BACKGROUND
+   ========================================= */
+.dot-grid {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: radial-gradient(circle, var(--vp-c-border) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse at 50% 0%, black 0%, transparent 65%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 0%, black 0%, transparent 65%);
+  opacity: 0.6;
+  transition: background-image 0.2s ease;
+}
+
+/* =========================================
+   LAYOUT
+   ========================================= */
+.section {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 5rem 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.section-header {
+  margin-bottom: 3rem;
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-3);
+  margin-bottom: 0.6rem;
+  letter-spacing: 0.02em;
+  transition: color 0.2s ease;
 }
 
 .section-title {
-  font-size: 2rem;
-  font-weight: 800;
-  text-align: center;
-  margin-bottom: 1rem;
-  letter-spacing: 0.08em;
-  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  font-family: var(--font-serif);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  color: var(--text-1);
+  margin: 0 0 0.75rem;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  transition: color 0.2s ease;
 }
-.section-subtitle {
-  text-align: center;
-  color: var(--vp-c-text-2);
-  margin-bottom: 3rem;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+
+.section-desc {
+  color: var(--text-2);
+  font-size: 1rem;
+  line-height: 1.7;
+  margin: 0;
+  max-width: 520px;
+  transition: color 0.2s ease;
 }
 
 /* =========================================
-   Bento Box (便当盒) 布局 - Diataxis
+   HERO
    ========================================= */
-.bento-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--bento-gap);
-  grid-auto-rows: minmax(180px, auto);
-}
-
-.bento-card {
-  background: var(--vp-c-bg-soft);
-  border: 1px solid var(--vp-c-border);
-  border-radius: var(--radius-lg);
-  padding: 2rem;
+.hero {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 8rem 2rem 6rem;
+  border-bottom: 1px solid var(--border-light);
   position: relative;
   overflow: hidden;
-  transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+  z-index: 1;
+  transition: border-color 0.2s ease;
 }
 
-.bento-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--vp-c-brand-1);
-  box-shadow: 0 12px 32px rgba(var(--vp-button-brand-bg), 0.1);
-}
-
-/* 非对称网格划分 */
-.card-tutorials { grid-column: span 2; grid-row: span 1; }
-.card-howto     { grid-column: span 1; grid-row: span 2; }
-.card-explain   { grid-column: span 1; grid-row: span 1; }
-.card-reference { grid-column: span 2; grid-row: span 1; }
-
-.bento-badge {
-  display: inline-block;
-  padding: 0.2rem 0.8rem;
-  font-size: 0.8rem;
-  font-weight: 600;
-  border-radius: 20px;
-  background: var(--vp-c-default-soft);
-  color: var(--vp-c-brand-1);
-  margin-bottom: 1rem;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
-}
-
-.bento-card h3 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.8rem; font-family: inherit; }
-.bento-card p { color: var(--vp-c-text-2); font-size: 0.98rem; line-height: 1.75; margin: 0; font-family: inherit; }
-
-/* 装饰性底层代码水印 */
-.bento-bg-code {
+/* Circuit decoration SVG */
+.circuit-deco {
   position: absolute;
   right: -10px;
-  bottom: -20px;
-  font-size: 6rem;
-  opacity: 0.03;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 380px;
+  height: 320px;
   pointer-events: none;
-  font-weight: 900;
-  line-height: 1;
+  z-index: 0;
+  opacity: 0.45;
 }
+
+.trace {
+  stroke: var(--text-3);
+  fill: none;
+}
+
+.trace-faint {
+  opacity: 0.4;
+}
+
+.node {
+  fill: var(--text-3);
+  opacity: 0.6;
+}
+
+.node-ring {
+  fill: none;
+  stroke: var(--text-3);
+  stroke-width: 1;
+  opacity: 0.25;
+}
+
+.node-small {
+  opacity: 0.5;
+}
+
+.chip-box {
+  fill: var(--surface);
+  stroke: var(--text-3);
+  opacity: 0.5;
+}
+
+.hero-inner {
+  max-width: 600px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--text-3);
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out), color 0.2s ease;
+}
+
+.loaded .hero-eyebrow { opacity: 1; transform: translateY(0); }
+
+.hero-title {
+  font-family: var(--font-serif);
+  font-size: clamp(3.5rem, 12vw, 6rem);
+  font-weight: 700;
+  color: var(--text-1);
+  letter-spacing: -0.04em;
+  line-height: 1;
+  margin: 0 0 1.25rem;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s var(--ease-out) 0.05s, transform 0.6s var(--ease-out) 0.05s, color 0.2s ease;
+}
+
+.loaded .hero-title { opacity: 1; transform: translateY(0); }
+
+.hero-lead {
+  font-family: var(--font-serif);
+  font-size: clamp(1.15rem, 2.5vw, 1.4rem);
+  color: var(--text-1);
+  margin: 0 0 0.9rem;
+  font-weight: 500;
+  line-height: 1.45;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.5s var(--ease-out) 0.1s, transform 0.5s var(--ease-out) 0.1s, color 0.2s ease;
+}
+
+.loaded .hero-lead { opacity: 1; transform: translateY(0); }
+
+.hero-sub {
+  font-size: 0.95rem;
+  color: var(--text-2);
+  line-height: 1.8;
+  margin: 0 0 2.5rem;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.5s var(--ease-out) 0.15s, transform 0.5s var(--ease-out) 0.15s, color 0.2s ease;
+}
+
+.loaded .hero-sub { opacity: 1; transform: translateY(0); }
+
+.hero-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.5s var(--ease-out) 0.2s, transform 0.5s var(--ease-out) 0.2s;
+}
+
+.loaded .hero-actions { opacity: 1; transform: translateY(0); }
 
 /* =========================================
-   专业装备 (Professional Equipment) - 专业板块
+   BUTTONS
    ========================================= */
-.module-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: var(--bento-gap);
-  margin-bottom: 2rem;
-}
-
-.module-card {
-  background: var(--vp-c-bg-soft);
-  border: 1px solid var(--vp-c-border);
-  border-radius: var(--radius-lg);
-  padding: 2.5rem;
-  position: relative;
-  overflow: hidden;
-  transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
-}
-
-.module-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--vp-c-brand-1);
-  box-shadow: 0 12px 32px rgba(var(--vp-button-brand-bg), 0.1);
-}
-
-.module-badge {
-  display: inline-block;
-  padding: 0.2rem 0.8rem;
-  font-size: 0.8rem;
-  font-weight: 600;
-  border-radius: 20px;
-  background: var(--vp-c-default-soft);
-  color: var(--vp-c-brand-1);
-  margin-bottom: 1rem;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
-}
-
-.module-card h3 {
-  font-size: 1.8rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  font-family: inherit;
-}
-
-.module-card p {
-  color: var(--vp-c-text-2);
-  font-size: 0.98rem;
-  line-height: 1.75;
-  margin: 0 0 1.5rem 0;
-  font-family: inherit;
-}
-
-.module-link {
+.btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  color: var(--vp-c-brand-1);
-  text-decoration: none;
+  padding: 0.7rem 1.4rem;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
   font-weight: 600;
-  font-size: 0.95rem;
-  transition: color var(--transition-fast);
+  text-decoration: none;
+  transition: all 0.18s ease;
+  cursor: pointer;
+  border: 1px solid transparent;
+  font-family: var(--font-sans);
 }
 
-.module-link:hover {
-  color: var(--vp-c-brand-2);
+.btn-primary {
+  background: var(--text-1);
+  color: var(--bg);
+  border-color: var(--text-1);
+  box-shadow: var(--shadow-sm);
 }
 
-.module-link::after {
-  content: '→';
-  transition: transform var(--transition-fast);
+.btn-primary:hover {
+  filter: brightness(1.1);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
 }
 
-.module-link:hover::after {
-  transform: translateX(4px);
+.btn-secondary {
+  background: var(--surface);
+  color: var(--text-1);
+  border-color: var(--border);
+  box-shadow: var(--shadow-sm);
 }
 
-/* 装饰性底层代码水印 */
-.module-bg-code {
-  position: absolute;
-  right: -10px;
-  bottom: -20px;
-  font-size: 6rem;
-  opacity: 0.03;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
-  pointer-events: none;
-  font-weight: 900;
-  line-height: 1;
+.btn-secondary:hover {
+  border-color: var(--text-3);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-2);
+  border-color: var(--border);
+}
+
+.btn-ghost:hover {
+  color: var(--text-1);
+  border-color: var(--text-3);
+  background: var(--surface);
+}
+
+.btn-small {
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-2);
+  font-family: var(--font-sans);
+}
+
+.btn-outline:hover {
+  border-color: var(--text-3);
+  color: var(--text-1);
 }
 
 /* =========================================
-   联机增益 (社区优势) - 悬浮词条
+   QUAD GRID (Diátaxis)
    ========================================= */
-.buff-grid {
+.quad-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.quad-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease,
+              background 0.2s ease;
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.loaded .quad-card {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.5s var(--ease-out) calc(var(--delay) * 0.08s + 0.3s),
+              transform 0.5s var(--ease-out) calc(var(--delay) * 0.08s + 0.3s),
+              box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.quad-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px);
+}
+
+/* Left accent bars */
+.quad-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  border-radius: 3px 0 0 3px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.bar-blue   { background: var(--tag-blue-text); }
+.bar-orange { background: var(--tag-orange-text); }
+.bar-green  { background: var(--tag-green-text); }
+.bar-purple { background: var(--tag-purple-text); }
+
+.quad-card:hover .quad-bar { opacity: 1; }
+
+/* Grid layout */
+.quad-large { grid-column: span 2; }
+.quad-tall  { grid-row: span 2; }
+
+.quad-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.1rem;
+}
+
+.quad-num {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-3);
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.quad-tag {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 5px;
+  letter-spacing: 0.04em;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.quad-tag.tag-blue   { background: var(--tag-blue-bg);   color: var(--tag-blue-text); }
+.quad-tag.tag-orange { background: var(--tag-orange-bg); color: var(--tag-orange-text); }
+.quad-tag.tag-green  { background: var(--tag-green-bg);   color: var(--tag-green-text); }
+.quad-tag.tag-purple { background: var(--tag-purple-bg);  color: var(--tag-purple-text); }
+
+.quad-card h3 {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-1);
+  margin: 0 0 0.75rem;
+  transition: color 0.2s ease;
+}
+
+.quad-card p {
+  font-size: 0.88rem;
+  color: var(--text-2);
+  line-height: 1.78;
+  margin: 0;
+  transition: color 0.2s ease;
+}
+
+/* =========================================
+   MODULE CARDS
+   ========================================= */
+.mod-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+
+.mod-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s ease, transform 0.2s ease,
+              border-color 0.2s ease, background 0.2s ease;
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.loaded .mod-card {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.5s var(--ease-out) calc(var(--delay) * 0.08s + 0.3s),
+              transform 0.5s var(--ease-out) calc(var(--delay) * 0.08s + 0.3s),
+              box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.mod-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px);
+  border-color: var(--text-3);
+}
+
+.mod-icon {
+  font-size: 1.6rem;
+  flex-shrink: 0;
+  line-height: 1.2;
+}
+
+.mod-body { flex: 1; min-width: 0; }
+
+.mod-body h3 {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-1);
+  margin: 0 0 0.5rem;
+  transition: color 0.2s ease;
+}
+
+.mod-body p {
+  font-size: 0.88rem;
+  color: var(--text-2);
+  line-height: 1.75;
+  margin: 0;
+  transition: color 0.2s ease;
+}
+
+.mod-arrow {
+  font-size: 1.25rem;
+  color: var(--text-3);
+  flex-shrink: 0;
+  margin-top: 0.25rem;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.mod-card:hover .mod-arrow {
+  transform: translateX(4px);
+  color: var(--text-2);
+}
+
+/* =========================================
+   BUFF ROW
+   ========================================= */
+.buff-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
 }
 
 .buff-item {
-  padding: 1.5rem;
-  border-left: 4px solid var(--vp-c-brand-1);
-  background: linear-gradient(90deg, var(--vp-c-bg-soft) 0%, transparent 100%);
-  border-radius: 0 12px 12px 0;
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.4s var(--ease-out) calc(var(--delay) * 0.06s + 0.3s),
+              transform 0.4s var(--ease-out) calc(var(--delay) * 0.06s + 0.3s);
 }
-.buff-icon { font-size: 2rem; margin-bottom: 0.5rem; display: block; }
-.buff-item h4 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem; font-family: inherit; }
-.buff-item p { font-size: 0.95rem; color: var(--vp-c-text-2); line-height: 1.75; margin: 0; font-family: inherit; }
+
+.loaded .buff-item {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.buff-emoji {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.buff-text h4 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-1);
+  margin: 0 0 0.35rem;
+  transition: color 0.2s ease;
+}
+
+.buff-text p {
+  font-size: 0.82rem;
+  color: var(--text-2);
+  line-height: 1.65;
+  margin: 0;
+  transition: color 0.2s ease;
+}
 
 /* =========================================
-   Terminal 控制台 - CTA
+   TERMINAL (always dark — no theme transition)
    ========================================= */
-.action-console { background: #0d1117; border-radius: 12px; border: 1px solid #30363d; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.3); display: flex; flex-direction: column; margin-top: 2rem; }
-.console-head { background: #161b22; padding: 1rem 1.5rem; display: flex; align-items: center; gap: 1rem; border-bottom: 1px solid #30363d; }
-.dots { display: flex; gap: 8px; }
-.dots i { width: 12px; height: 12px; border-radius: 50%; background: #ff5f56; }
-.dots i:nth-child(2) { background: #ffbd2e; }
-.dots i:nth-child(3) { background: #27c93f; }
-.console-head span { color: #8b949e; font-family: 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Fira Code', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; font-size: 0.92rem; font-weight: 600; letter-spacing: 0.01em; }
-.console-body { padding: 1.5rem 2rem; font-family: 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Fira Code', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; font-size: 0.97rem; line-height: 1.75; min-height: 250px; max-height: 400px; overflow-y: auto; cursor: text; background: #0d1117; color: #f0f6fc; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-.log-line { margin-bottom: 0.7rem; }
-.input-line { display: flex; align-items: center; margin-top: 0.75rem; }
-.prompt { color: #7ee787; margin-right: 0.75rem; font-weight: 700; white-space: nowrap; }
-.cmd-text { color: #f0f6fc; }
-.sys-msg { color: #8b949e; }
-.sys-warn { color: #ffbd2e; font-weight: 600; }
-.sys-success { color: #00f0ff; }
-.input-line input { background: transparent; border: none; outline: none; color: #f0f6fc; font-family: 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Fira Code', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; font-size: 0.97rem; line-height: 1.75; flex: 1; caret-color: #7ee787; }
-.console-body::-webkit-scrollbar { width: 8px; }
-.console-body::-webkit-scrollbar-track { background: transparent; }
-.console-body::-webkit-scrollbar-thumb { background: #30363d; border-radius: 4px; }
+.terminal-section { padding-top: 3rem; }
 
-.terminal-line { margin-bottom: 0.75rem; z-index: 1; display: flex; flex-wrap: wrap; align-items: center; }
-.terminal-line span { color: #c9d1d9; }
-.terminal-line--info span { color: #a8b0c5; }
-.terminal-line--warn span { color: #ffbd2e; }
-.terminal-line--success span { color: #7ee787; }
-.terminal-line--input span { color: #ffffff; }
+.console {
+  background: #1c1c1e;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2), 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
 
-.terminal-input-bar {
+.console-titlebar {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
-  margin-top: auto;
-  padding-top: 0.5rem;
-  border-top: 1px solid rgba(255,255,255,0.08);
-  z-index: 1;
+  gap: 0.75rem;
+  padding: 0.85rem 1.25rem;
+  background: #28282a;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
-.terminal-input {
-  flex: 1;
+
+.console-dots { display: flex; gap: 7px; }
+
+.console-dots i {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ff5f57;
+  display: block;
+}
+.console-dots i:nth-child(2) { background: #ffbd2e; }
+.console-dots i:nth-child(3) { background: #28c840; }
+
+.console-titlebar > span {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.38);
+}
+
+.console-status {
+  margin-left: auto;
+  font-size: 0.72rem !important;
+  color: #28c840 !important;
+  opacity: 0.85;
+}
+
+.console-body {
+  padding: 1.25rem 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  line-height: 1.75;
+  color: #d4d4d4;
+  min-height: 220px;
+  max-height: 340px;
+  overflow-y: auto;
+  cursor: text;
+  background: #1c1c1e;
+}
+
+.console-body::-webkit-scrollbar { width: 5px; }
+.console-body::-webkit-scrollbar-track { background: transparent; }
+.console-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+
+.log-line { margin-bottom: 0.4rem; }
+
+.log-prompt { color: #6fba8a; margin-right: 0.65rem; font-weight: 600; white-space: nowrap; }
+.log-cmd   { color: #e8e8e8; }
+.log-info  { color: rgba(255,255,255,0.42); }
+.log-warn  { color: #e8a832; font-weight: 600; }
+.log-ok    { color: #4ec9b8; }
+
+.input-row {
+  display: flex;
+  align-items: center;
+  margin-top: 0.4rem;
+}
+
+.input-row input {
   background: transparent;
   border: none;
-  color: #eaf0ff;
-  font: inherit;
   outline: none;
-  min-width: 0;
-}
-.terminal-input::placeholder {
-  color: rgba(234, 240, 255, 0.45);
+  color: #e8e8e8;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  flex: 1;
+  caret-color: #6fba8a;
 }
 
-.term-actions { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: flex-start; margin-top: auto; z-index: 1; }
-.term-btn {
-  padding: 0.8rem 1.5rem;
-  border-radius: 8px;
-  font-weight: 600;
-  font-family: -apple-system, sans-serif;
-  text-decoration: none;
-  transition: 0.2s;
-}
-.btn-git { background: #ea4aaa; color: white !important; }
-.btn-git:hover { background: #d03d96; }
-.btn-chat { background: transparent; border: 1px solid #8b949e; color: #c9d1d9 !important; }
-.btn-chat:hover { border-color: #c9d1d9; background: rgba(255,255,255,0.05); }
-
-.mobile-cta {
+.mobile-links {
   display: none;
-  max-width: 720px;
-  margin: 2rem auto 0;
-  padding: 1.5rem 1.75rem;
-  border: 1px solid var(--vp-c-border);
-  border-radius: var(--radius-lg);
-  background: var(--vp-c-bg-soft);
-  text-align: center;
-}
-.mobile-cta p {
-  margin: 0 0 1rem;
-  color: var(--vp-c-text-2);
-  font-size: 0.95rem;
-}
-.mobile-cta-buttons {
-  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
   justify-content: center;
-  gap: 1rem;
-  flex-wrap: wrap;
 }
 
-/* 移动端降级 */
-@media (max-width: 768px) {
-  .bento-grid { grid-template-columns: 1fr; }
-  .card-tutorials, .card-howto, .card-explain, .card-reference { grid-column: span 1; grid-row: auto; }
-  .module-grid { grid-template-columns: 1fr; }
-  .terminal-wrapper { display: none; }
-  .action-console { display: none; }
-  .mobile-cta { display: block; }
+.inline-code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--vp-c-bg-mute);
+  padding: 0.15em 0.45em;
+  border-radius: 4px;
+  color: var(--accent);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+@media (max-width: 800px) {
+  .quad-grid { grid-template-columns: repeat(2, 1fr); }
+  .quad-large { grid-column: span 2; }
+  .quad-tall  { grid-row: span 1; }
+  .buff-row   { grid-template-columns: repeat(2, 1fr); }
+  .mod-grid   { grid-template-columns: 1fr; }
+  .hero       { padding: 6rem 1.5rem 4rem; }
+  .section    { padding: 4rem 1.5rem; }
+}
+
+@media (max-width: 560px) {
+  .quad-grid { grid-template-columns: 1fr; }
+  .quad-large, .quad-tall { grid-column: span 1; grid-row: auto; }
+  .buff-row  { grid-template-columns: 1fr; }
+  .console  { display: none; }
+  .mobile-links { display: flex; }
+  .circuit-deco { opacity: 0.2; width: 260px; right: -20px; }
 }
 </style>

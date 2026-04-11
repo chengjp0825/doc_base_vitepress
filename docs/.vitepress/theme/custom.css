@@ -5,12 +5,15 @@
   margin: 1rem 0;
   background-color: transparent;
 }
+
 .vp-doc .minimal-table tr {
   background-color: transparent !important;
   border-top: none;
   border-bottom: 1px solid #222;
 }
-.vp-doc .minimal-table th, .vp-doc .minimal-table td {
+
+.vp-doc .minimal-table th,
+.vp-doc .minimal-table td {
   border: none;
   padding: 12px 16px;
 }
@@ -161,6 +164,7 @@
 
 /* 移动端表格优化 */
 @media (max-width: 768px) {
+
   .vp-doc .pro-table,
   .vp-doc .compact-table {
     font-size: 0.8rem;
