@@ -37,6 +37,8 @@ jobs:
       # 步骤 1：拉取代码库到当前的 Ubuntu 虚拟机中
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       # 步骤 2：安装和配置 Docker Buildx
       # Buildx 是 Docker 的高级构建引擎。保留此步骤为后续开启高级缓存 (cache-from/to) 
