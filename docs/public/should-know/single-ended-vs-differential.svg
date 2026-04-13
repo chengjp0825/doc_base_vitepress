@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520" role="img" aria-labelledby="title desc">
+  <title id="title">单端信号与差分信号对比</title>
+  <desc id="desc">左侧展示单端信号受地噪声影响，右侧展示差分信号在两根线同时受扰时仍能通过相减恢复数据。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#eef2ff"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f8fafc"/>
+    </linearGradient>
+    <style>
+      .title { font: 700 28px sans-serif; fill: #0f172a; }
+      .subtitle { font: 500 18px sans-serif; fill: #334155; }
+      .label { font: 600 20px sans-serif; fill: #0f172a; }
+      .small { font: 500 16px sans-serif; fill: #475569; }
+      .wire { stroke: #334155; stroke-width: 8; fill: none; stroke-linecap: round; }
+      .wire2 { stroke: #0f172a; stroke-width: 8; fill: none; stroke-linecap: round; }
+      .noise { stroke: #ef4444; stroke-width: 4; fill: none; stroke-dasharray: 8 8; }
+      .box { fill: url(#panel); stroke: #cbd5e1; stroke-width: 2; rx: 24; }
+      .chip { fill: #1d4ed8; }
+      .chip2 { fill: #7c3aed; }
+      .good { fill: #10b981; }
+      .bad { fill: #ef4444; }
+      .arrow { stroke: #64748b; stroke-width: 4; fill: none; marker-end: url(#arrow); }
+    </style>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="520" fill="url(#bg)"/>
+  <text x="60" y="56" class="title">单端 vs 差分：噪声到底会不会被放大</text>
+  <text x="60" y="90" class="subtitle">左图看地电压，右图看差值。高速链路最怕的，就是把共模噪声当成有效信号。</text>
+
+  <rect x="40" y="130" width="540" height="340" class="box"/>
+  <rect x="620" y="130" width="540" height="340" class="box"/>
+
+  <text x="80" y="175" class="label">单端信号</text>
+  <text x="660" y="175" class="label">差分信号</text>
+
+  <!-- left panel -->
+  <rect x="90" y="225" width="130" height="80" rx="18" class="chip"/>
+  <text x="112" y="273" class="label" fill="#fff">发送端</text>
+  <rect x="350" y="225" width="130" height="80" rx="18" class="chip2"/>
+  <text x="372" y="273" class="label" fill="#fff">接收端</text>
+  <path d="M220 265 L350 265" class="wire"/>
+  <path d="M285 180 C290 210, 250 230, 285 265 C320 300, 270 325, 300 360" class="noise"/>
+  <circle cx="285" cy="265" r="13" class="bad"/>
+  <text x="170" y="345" class="small">地噪声直接叠加到判决阈值</text>
+  <path d="M250 330 L250 405" class="arrow"/>
+  <text x="115" y="440" class="small">判决结果更容易被参考地波动拖偏</text>
+
+  <!-- right panel -->
+  <rect x="670" y="215" width="120" height="60" rx="14" class="chip"/>
+  <text x="688" y="252" class="small" fill="#fff">TX+</text>
+  <rect x="670" y="300" width="120" height="60" rx="14" class="chip2"/>
+  <text x="688" y="337" class="small" fill="#fff">TX-</text>
+  <rect x="900" y="215" width="120" height="60" rx="14" class="chip"/>
+  <text x="918" y="252" class="small" fill="#fff">RX+</text>
+  <rect x="900" y="300" width="120" height="60" rx="14" class="chip2"/>
+  <text x="918" y="337" class="small" fill="#fff">RX-</text>
+  <path d="M790 245 L900 245" class="wire2"/>
+  <path d="M790 330 L900 330" class="wire2"/>
+  <path d="M820 180 C850 205, 820 225, 860 245 C900 270, 860 295, 890 330" class="noise"/>
+  <path d="M820 360 C850 340, 820 310, 860 330 C900 350, 860 390, 890 360" class="noise"/>
+  <circle cx="845" cy="288" r="14" class="good"/>
+  <text x="708" y="410" class="small">接收端看的是两线差值，共模扰动大多被抵消</text>
+</svg>

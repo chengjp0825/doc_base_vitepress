@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Obsidian 双链图谱 | 深度视觉演示</title>
+  <style>
+    :root {
+      /* 升级调色板：增加景深 */
+      --bg: #030712; 
+      --bg-dots: #111827;
+      --panel: #0b1220;
+      --line: #3a4f66;
+      --line-highlight: #3b82f6; /* 主高亮 */
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --fade: #475569;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0; padding: 0; width: 100%; height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", PingFang SC, sans-serif;
+      overflow: hidden;
+    }
+
+    /* 增加背景噪点，模拟深度感 */
+    body::before {
+      content: "";
+      position: absolute; width: 100%; height: 100%;
+      background-image: radial-gradient(var(--bg-dots) 1px, transparent 1px);
+      background-size: 24px 24px;
+      opacity: 0.15;
+    }
+
+    .wrap {
+      width: 100%; height: 100%; padding: 0;
+    }
+
+    .stage {
+      position: relative; width: 100%; height: 100%;
+      overflow: hidden;
+    }
+
+    canvas {
+      position: absolute; left: 0; top: 0; width: 100%; height: 100%;
+      touch-action: none; cursor: inherit;
+    }
+    
+    /* 文字在 Canvas 上往往不够清晰，用 DOM 渲染悬浮框 */
+    #tooltip {
+      position: absolute; pointer-events: none;
+      background: rgba(11, 18, 32, 0.95);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 13px;
+      color: var(--text);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      opacity: 0; transition: opacity 0.15s ease, transform 0.15s ease;
+      transform: translate(-50%, -100%) translateY(-10px);
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="stage" id="stage">
+      <canvas id="graph"></canvas>
+      <div id="tooltip"></div>
+    </div>
+  </div>
+
+  <script>
+    // 增加数据量以展示自适应排斥力
+    const labels = [
+      'Obsidian', 'WebDAV', 'Docker', 'Remotely Save', '阿里云', 'UFW', 'Nginx', 'HTTPS',
+      'Markdown', '双向链接', '关系图谱', '同步冲突', '版本备份', '标签系统', '模板', '日报',
+      '项目A', '项目B', '读书笔记', '技术方案', '运维手册', '自动化脚本', '手机端', '桌面端',
+      'Vault', '插件生态', '数据主权', '全文检索', '发布流程', '备忘录', '知识管理', '任务系统',
+      '日志归档', '学习路线', '实践案例', '收藏夹', '面试题', '协议笔记', '硬件调试', '云同步'
+    ];
+
+    const links = [
+      ['Obsidian', 'Markdown'], ['Obsidian', '双向链接'], ['Obsidian', '关系图谱'], ['Obsidian', 'Vault'],
+      ['Obsidian', '插件生态'], ['Obsidian', 'Remotely Save'], ['Remotely Save', 'WebDAV'],
+      ['WebDAV', 'Docker'], ['Docker', '阿里云'], ['阿里云', 'UFW'], ['WebDAV', '同步冲突'],
+      ['同步冲突', '版本备份'], ['Markdown', '模板'], ['模板', '日报'], ['日报', '项目A'],
+      ['日报', '项目B'], ['项目A', '技术方案'], ['项目B', '运维手册'], ['技术方案', '自动化脚本'],
+      ['运维手册', '发布流程'], ['发布流程', 'Nginx'], ['Nginx', 'HTTPS'], ['数据主权', 'WebDAV'],
+      ['数据主权', 'Vault'], ['手机端', 'Remotely Save'], ['桌面端', 'Remotely Save'],
+      ['读书笔记', '标签系统'], ['标签系统', '全文检索'], ['备忘录', '全文检索'], ['关系图谱', '标签系统'],
+      ['知识管理', 'Obsidian'], ['知识管理', '关系图谱'], ['任务系统', '日报'], ['日志归档', '备忘录'],
+      ['学习路线', '读书笔记'], ['实践案例', '技术方案'], ['收藏夹', '读书笔记'], ['面试题', '学习路线'],
+      ['协议笔记', '技术方案'], ['硬件调试', '协议笔记'], ['云同步', 'WebDAV'], ['云同步', 'Remotely Save']
+    ];
+
+    const nodesMap = new Map();
+    // 1. 根据标签生成基础属性
+    labels.forEach((label, i) => {
+      const type = label === 'Obsidian' ? 'core' : (label.includes('项目') ? 'project' : 'normal');
+      nodesMap.set(label, {
+        id: i, label, type,
+        x: (Math.random() - 0.5) * 800, y: (Math.random() - 0.5) * 600,
+        vx: 0, vy: 0,
+        fixed: false,
+        degree: 0 // 待计算：连接数
+      });
+    });
+
+    // 2. 预处理：计算连接数和自适应排斥力
+    const nodesArray = Array.from(nodesMap.values());
+    const edgesArray = links.map(([a, b]) => {
+      const nodeA = nodesMap.get(a);
+      const nodeB = nodesMap.get(b);
+      nodeA.degree++;
+      nodeB.degree++;
+      return { a: nodeA.id, b: nodeB.id };
+    });
+
+    // 3. 核心节点动态排斥力
+    const CORE_REPULSION = 1800; // 核心排斥力大
+    const PROJECT_REPULSION = 1200; // 项目排斥力中
+    const NORMAL_REPULSION = 700; // 普通排斥力小
+
+    // 4. 径向渐变颜色
+    const COLOR_CORE = ['#dbeafe', '#60a5fa', '#2563eb']; // 亮, 主, 暗
+    const COLOR_PROJECT = ['#a5f3fc', '#22d3ee', '#0891b2'];
+    const COLOR_NORMAL = ['#f8fafc', '#cbd5e1', '#94a3b8'];
+
+    // 物理参数
+    const SPRING = 0.005; // 弹力
+    const DAMP = 0.9; // 阻尼，优化移动手感
+    const targetLength = 80; // 基础弹簧长度
+    const repulsionBase = 1000;
+
+    const stage = document.getElementById('stage');
+    const canvas = document.getElementById('graph');
+    const tooltip = document.getElementById('tooltip');
+    const ctx = canvas.getContext('2d');
+
+    const state = {
+      scale: 1, targetScale: 1, // 引入缓动目标
+      tx: 0, targetTx: 0,
+      ty: 0, targetTy: 0,
+      panning: false, draggingNode: null,
+      hoverNode: null, focusNode: null,
+      highlighted: new Set(),
+      pointerX: 0, pointerY: 0,
+      hoverAnimTime: 0 // 悬停时的脉冲动画时间
+    };
+
+    function resize() {
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.floor(stage.clientWidth * dpr);
+      canvas.height = Math.floor(stage.clientHeight * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function toWorld(sx, sy) {
+      const w = stage.clientWidth; const h = stage.clientHeight;
+      return { x: (sx - w/2 - state.tx)/state.scale, y: (sy - h/2 - state.ty)/state.scale };
+    }
+
+    function toScreen(wx, wy) {
+      const w = stage.clientWidth; const h = stage.clientHeight;
+      return { x: wx * state.scale + w/2 + state.tx, y: wy * state.scale + h/2 + state.ty };
+    }
+
+    function updateNeighbors(node) {
+      if (!node) { state.focusNode = null; state.highlighted.clear(); return; }
+      state.focusNode = node.id;
+      const set = new Set([node.id]);
+      edgesArray.forEach(e => { if (e.a === node.id) set.add(e.b); if (e.b === node.id) set.add(e.a); });
+      state.highlighted = set;
+    }
+
+    // 优化：文字显示不再随缩放变形，固定在 DOM 渲染
+    function showTooltip(node, sx, sy) {
+      if (!node) { tooltip.style.opacity = 0; return; }
+      tooltip.innerText = node.label;
+      tooltip.style.left = sx + 'px';
+      tooltip.style.top = sy + 'px';
+      tooltip.style.opacity = 1;
+      tooltip.style.transform = 'translate(-50%, -100%) translateY(-15px) scale(1)';
+    }
+
+    function updatePhysics() {
+      const spring = 0.01;
+      const damp = 0.9;
+      const adaptiveRepulsion = (n) => n.degree > 3 ? CORE_REPULSION : (n.degree > 1 ? PROJECT_REPULSION : NORMAL_REPULSION);
+
+      for (let i = 0; i < nodesArray.length; i += 1) {
+        const a = nodesArray[i];
+        for (let j = i + 1; j < nodesArray.length; j += 1) {
+          const b = nodesArray[j];
+          let dx = b.x - a.x; let dy = b.y - a.y;
+          let d2 = dx * dx + dy * dy;
+          if (d2 < 0.01) d2 = 0.01;
+          const d = Math.sqrt(d2);
+          const f = (adaptiveRepulsion(a) + adaptiveRepulsion(b)) / d2;
+          dx /= d; dy /= d;
+          if (!a.fixed) { a.vx -= dx * f; a.vy -= dy * f; }
+          if (!b.fixed) { b.vx += dx * f; b.vy += dy * f; }
+        }
+      }
+
+      edgesArray.forEach(e => {
+        const a = nodesArray[e.a]; const b = nodesArray[e.b];
+        let dx = b.x - a.x; let dy = b.y - a.y;
+        const d = Math.sqrt(dx * dx + dy * dy) || 0.0001;
+        const targetLen = (a.degree > 3 || b.degree > 3) ? targetLength * 1.5 : targetLength;
+        const stretch = d - targetLen;
+        const f = SPRING * stretch;
+        dx /= d; dy /= d;
+        if (!a.fixed) { a.vx += dx * f; a.vy += dy * f; }
+        if (!b.fixed) { b.vx -= dx * f; b.vy -= dy * f; }
+      });
+
+      nodesArray.forEach(n => {
+        if (!n.fixed) { n.vx *= DAMP; n.vy *= DAMP; n.x += n.vx; n.y += n.vy; }
+      });
+
+      // 视口的平滑缓动
+      state.scale += (state.targetScale - state.scale) * 0.1;
+      state.tx += (state.targetTx - state.tx) * 0.1;
+      state.ty += (state.targetTy - state.ty) * 0.1;
+    }
+
+    // 核心绘制策略：深度渲染
+    function draw() {
+      const w = stage.clientWidth; const h = stage.clientHeight;
+      ctx.clearRect(0, 0, w, h);
+
+      // 绘制粒子背景（更进一步的逼真，可选）
+      state.hoverAnimTime += 0.05;
+      const isDragging = state.draggingNode || state.panning;
+
+      // 1. 绘制连接线：引入数据流动视觉
+      edgesArray.forEach(e => {
+        const a = nodesArray[e.a]; const b = nodesArray[e.b];
+        const pa = toScreen(a.x, a.y); const pb = toScreen(b.x, b.y);
+
+        let alpha = 0.42; let color = '148,163,184'; let width = 1.15;
+
+        if (state.focusNode != null) {
+          const inFocusLink = state.highlighted.has(a.id) && state.highlighted.has(b.id);
+          if (inFocusLink) {
+            color = '59,130,246'; alpha = 0.9; width = 2.2;
+          } else {
+            alpha = 0.2; color = '100,116,139';
+          }
+        }
+
+        // 引入“二次贝塞尔曲线”，模拟数据的有机流动（只在近距离显示，避免混乱）
+        // 这里暂时使用直线以保持原生逼真感，但添加微妙的流动粒子动画
+        ctx.strokeStyle = `rgba(${color},${alpha})`;
+        ctx.lineWidth = width * (1 + state.scale * 0.2); // 缩放时加粗
+        ctx.beginPath();
+        ctx.moveTo(pa.x, pa.y); ctx.lineTo(pb.x, pb.y);
+        ctx.stroke();
+
+        if (state.focusNode != null && state.highlighted.has(a.id) && state.highlighted.has(b.id)) {
+            const time = state.hoverAnimTime;
+            const progress = (Math.sin(time + e.a * e.b) + 1) / 2;
+            const x = pa.x + (pb.x - pa.x) * progress;
+            const y = pa.y + (pb.y - pa.y) * progress;
+            ctx.fillStyle = '#93c5fd';
+            ctx.beginPath();
+            ctx.arc(x, y, 2, 0, Math.PI * 2);
+            ctx.fill();
+        }
+      });
+
+      // 2. 绘制节点：引入体积和深度感
+      nodesArray.forEach(n => {
+        const p = toScreen(n.x, n.y);
+        let colors = COLOR_NORMAL; 
+        let alpha = 0.9;
+        // 节点的自适应半径：连接数越多，半径越大
+        let baseR = n.degree > 3 ? 12 : (n.degree > 1 ? 8 : 5);
+        let r = baseR * state.scale;
+        const text = '#e2e8f0';
+
+        if (n.type === 'core') { colors = COLOR_CORE; } else if (n.type === 'project') { colors = COLOR_PROJECT; }
+
+        if (state.focusNode != null) {
+          if (!state.highlighted.has(n.id)) {
+            alpha = 0.3; // 模糊
+          } else if (n.id === state.focusNode) {
+            alpha = 1; r = Math.max(r, 15);
+          }
+        }
+
+        if (state.hoverNode && state.hoverNode.id === n.id) {
+          r += (3 + Math.sin(state.hoverAnimTime) * 1) * state.scale;
+        }
+
+        ctx.globalAlpha = alpha;
+
+        // 逼真渲染核心：径向渐变，产生球体体积感
+        const gradient = ctx.createRadialGradient(p.x, p.y, r*0.1, p.x, p.y, r);
+        gradient.addColorStop(0, colors[0]); // 亮部
+        gradient.addColorStop(0.5, colors[1]); // 主体
+        gradient.addColorStop(1, colors[2]); // 暗部
+
+        // Subtle shadow 外发光
+        ctx.shadowColor = `rgba(${colors[1].substring(1,3)},${colors[1].substring(3,5)},${colors[1].substring(5,7)}, 0.5)`;
+        ctx.shadowBlur = alpha > 0.5 ? 20 * state.scale : 5;
+        ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0;
+
+        ctx.fillStyle = gradient;
+        ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, Math.PI * 2); ctx.fill();
+
+        ctx.shadowBlur = 0; // 重置阴影以便渲染文字
+
+        // 文字排版优化：不随缩放变形，固定清晰
+        ctx.fillStyle = text;
+        ctx.globalAlpha = alpha > 0.6 ? 1 : alpha;
+        ctx.font = '13px -apple-system, Segoe UI, Roboto, Microsoft YaHei, sans-serif';
+        const metrics = ctx.measureText(n.label);
+        
+        // 核心文字高亮处理
+        if (n.type === 'core') {
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 13px "SF Pro Text", sans-serif';
+        }
+
+        // 只有核心、聚焦、或悬停时显示文字
+        if (n.type === 'core' || n.type === 'project' || (state.hoverNode && state.hoverNode.id === n.id) || (state.focusNode && state.highlighted.has(n.id)) || state.scale > 1.2) {
+            ctx.fillText(n.label, p.x - metrics.width / 2, p.y + metrics.actualBoundingBoxAscent / 2);
+        }
+      });
+
+      ctx.globalAlpha = 1;
+    }
+
+    function frame() { updatePhysics(); draw(); requestAnimationFrame(frame); }
+
+    function smoothFocus(node) {
+      if (!node) { state.targetTx = 0; state.targetTy = 0; state.targetScale = 1; updateNeighbors(null); return; }
+      state.targetTx = -node.x * state.targetScale;
+      state.targetTy = -node.y * state.targetScale;
+      state.targetScale = Math.max(1.8, state.scale);
+      updateNeighbors(node);
+    }
+
+    function findNodeAt(sx, sy) {
+      const w = toWorld(sx, sy);
+      for (let i = nodesArray.length - 1; i >= 0; i -= 1) {
+        const n = nodesArray[i]; const dx = w.x - n.x; const dy = w.y - n.y;
+        const rr = Math.max(12, (n.degree > 3 ? 12 : 8) + 4); // 扩大点击区域
+        if (dx * dx + dy * dy <= rr * rr) return n;
+      }
+      return null;
+    }
+
+    stage.addEventListener('pointerdown', e => {
+      const rect = stage.getBoundingClientRect();
+      const sx = e.clientX - rect.left; const sy = e.clientY - rect.top;
+      const hit = findNodeAt(sx, sy);
+      state.pointerX = e.clientX; state.pointerY = e.clientY;
+      if (hit) { state.draggingNode = hit; hit.fixed = true; tooltip.style.opacity = 0; } else { state.panning = true; }
+      stage.setPointerCapture(e.pointerId);
+    });
+
+    stage.addEventListener('pointermove', e => {
+      const rect = stage.getBoundingClientRect();
+      const sx = e.clientX - rect.left; const sy = e.clientY - rect.top;
+      
+      const dx = e.clientX - state.pointerX;
+      const dy = e.clientY - state.pointerY;
+      state.pointerX = e.clientX; state.pointerY = e.clientY;
+
+      if (!state.draggingNode && !state.panning) {
+          const hoverNode = findNodeAt(sx, sy);
+          state.hoverNode = hoverNode;
+          // 清晰文字悬浮框
+          showTooltip(hoverNode, sx, sy);
+          stage.style.cursor = hoverNode ? 'pointer' : 'grab';
+      }
+
+      if (state.draggingNode) {
+        const w = toWorld(sx, sy);
+        state.draggingNode.x = w.x; state.draggingNode.y = w.y;
+        state.draggingNode.vx = 0; state.draggingNode.vy = 0;
+        stage.style.cursor = 'grabbing';
+      } else if (state.panning) {
+        state.targetTx += dx; state.targetTy += dy;
+        state.tx = state.targetTx; state.ty = state.targetTy;
+        stage.style.cursor = 'grabbing';
+      }
+    });
+
+    stage.addEventListener('pointerup', e => {
+      if (state.draggingNode) { state.draggingNode.fixed = false; }
+      const wasDragOrPan = (Math.abs(e.clientX - state.pointerX) + Math.abs(e.clientY - state.pointerY)) > 5 || state.draggingNode || state.panning;
+      
+      const rect = stage.getBoundingClientRect();
+      const sx = e.clientX - rect.left; const sy = e.clientY - rect.top;
+      const hit = findNodeAt(sx, sy);
+
+      if (!state.panning && !state.draggingNode && hit && !isDraggingTool) {
+          smoothFocus(hit);
+      }
+      
+      state.draggingNode = null; state.panning = false;
+      isDraggingTool = false;
+      stage.style.cursor = state.hoverNode ? 'pointer' : 'grab';
+      stage.releasePointerCapture(e.pointerId);
+    });
+
+    let isDraggingTool = false; // 区分拖拽和点击
+
+    stage.addEventListener('wheel', e => {
+      e.preventDefault();
+      const rect = stage.getBoundingClientRect();
+      const sx = e.clientX - rect.left; const sy = e.clientY - rect.top;
+      const before = toWorld(sx, sy);
+      const factor = e.deltaY < 0 ? 1.2 : 0.8;
+      // 平滑的目标缩放
+      state.targetScale = Math.min(3.5, Math.max(0.15, state.targetScale * factor));
+      state.targetTx -= before.x * (state.targetScale - state.scale);
+      state.targetTy -= before.y * (state.targetScale - state.scale);
+    }, { passive: false });
+
+    // 双击重置
+    stage.addEventListener('dblclick', () => smoothFocus(null));
+
+    window.addEventListener('resize', resize);
+    resize(); stage.style.cursor = 'grab'; frame();
+  </script>
+</body>
+</html>

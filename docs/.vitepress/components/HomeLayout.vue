@@ -22,6 +22,11 @@ const focusInput = () => {
     terminalInput.value.focus()
 }
 
+const runTerminalShortcut = async (command) => {
+  currentCommand.value = command
+  await executeCommand()
+}
+
 const executeCommand = async () => {
   const cmd = currentCommand.value.trim()
   if (!cmd)
@@ -123,9 +128,12 @@ const executeCommand = async () => {
       <div class="hero-inner">
         <div class="hero-eyebrow">
           <span class="eyebrow-dot"></span>
-          电子工程师的芯片笔记
+          笔记与技术分享
         </div>
-        <h1 class="hero-title">NoteHub</h1>
+        <div class="hero-title-row">
+          <img class="hero-logo-inline" src="/favicon.svg" alt="NoteHub Logo" />
+          <h1 class="hero-title">NoteHub</h1>
+        </div>
         <p class="hero-lead">别在 DataSheet 里单排了，这儿有活人。</p>
         <p class="hero-sub">基于 Diátaxis 架构的赛博修理铺。拒绝纸上谈兵，专治底层协议死锁、MCU 漏电，以及面试官的无理取闹。</p>
         <div class="hero-actions">
@@ -215,6 +223,53 @@ const executeCommand = async () => {
       </div>
     </section>
 
+    <!-- HIGHLIGHTS -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-label">// 本站亮点</div>
+        <h2 class="section-title">不是普通教程站</h2>
+        <p class="section-desc">阅读过程中会突然触发提问与交互演示，帮助你把概念真正记住，而不是看完就忘。</p>
+      </div>
+
+      <div class="mod-grid">
+        <div class="mod-card highlight-card" style="--delay: 5">
+          <div class="mod-icon">❓</div>
+          <div class="mod-body">
+            <h3>正文会突然冒出的提问环节</h3>
+            <p>你会在正文里遇到「那我问你」和「那我接着问你」的突击环节，用面试式追问帮你及时检查理解深度。</p>
+            <div class="mod-preview qa-preview" aria-hidden="true">
+              <div class="qa-head">那我问你</div>
+              <div class="qa-line">为什么差分更抗共模干扰？</div>
+              <div class="qa-chip-row">
+                <span class="qa-chip">那我问你</span>
+                <span class="qa-chip">那我接着问你</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mod-card highlight-card" style="--delay: 6">
+          <div class="mod-icon">🧪</div>
+          <div class="mod-body">
+            <h3>正文会突然出现交互式 frame</h3>
+            <p>遇到难以理解的抽象概念时，正文会直接插入方便理解的「交互式」frame 和 canvas ，让你边拖参数边看结果。</p>
+            <div class="mod-preview frame-preview" aria-hidden="true">
+              <div class="frame-topbar">
+                <i></i><i></i><i></i>
+                <span>IIC Demo</span>
+              </div>
+              <div class="frame-body">
+                <div class="frame-chart"></div>
+                <div class="frame-controls">
+                  <span></span><span></span><span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- COMMUNITY -->
     <section class="section">
       <div class="section-header">
@@ -260,7 +315,13 @@ const executeCommand = async () => {
       <div class="section-header">
         <div class="section-label">// 终端联机</div>
         <h2 class="section-title">在本地完成所有操作</h2>
-        <p class="section-desc">仿佛置身真实的服务器机房。输入 <code class="inline-code">help</code> 开始。</p>
+        <p class="section-desc terminal-desc">
+          仿佛置身真实的服务器机房。点击
+          <button type="button" class="terminal-chip" @click="runTerminalShortcut('help')">help</button>
+          开始，或者点击
+          <button type="button" class="terminal-chip terminal-chip-join" @click="runTerminalShortcut('join')">join</button>
+          加入。
+        </p>
       </div>
 
       <div class="console">
@@ -511,6 +572,25 @@ const executeCommand = async () => {
 
 .loaded .hero-eyebrow { opacity: 1; transform: translateY(0); }
 
+.hero-title-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin: 0 0 1.25rem;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s var(--ease-out) 0.05s, transform 0.6s var(--ease-out) 0.05s;
+}
+
+.loaded .hero-title-row { opacity: 1; transform: translateY(0); }
+
+.hero-logo-inline {
+  width: clamp(3.4rem, 8vw, 4.8rem);
+  height: clamp(3.4rem, 8vw, 4.8rem);
+  display: block;
+  border-radius: 1rem;
+}
+
 .hero-title {
   font-family: var(--font-serif);
   font-size: clamp(3.5rem, 12vw, 6rem);
@@ -518,13 +598,9 @@ const executeCommand = async () => {
   color: var(--text-1);
   letter-spacing: -0.04em;
   line-height: 1;
-  margin: 0 0 1.25rem;
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.6s var(--ease-out) 0.05s, transform 0.6s var(--ease-out) 0.05s, color 0.2s ease;
+  margin: 0;
+  transition: color 0.2s ease;
 }
-
-.loaded .hero-title { opacity: 1; transform: translateY(0); }
 
 .hero-lead {
   font-family: var(--font-serif);
@@ -781,6 +857,16 @@ const executeCommand = async () => {
   border-color: var(--text-3);
 }
 
+.highlight-card {
+  cursor: default;
+}
+
+.highlight-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px);
+  border-color: var(--text-3);
+}
+
 .mod-icon {
   font-size: 1.6rem;
   flex-shrink: 0;
@@ -804,6 +890,96 @@ const executeCommand = async () => {
   line-height: 1.75;
   margin: 0;
   transition: color 0.2s ease;
+}
+
+.mod-preview {
+  margin-top: 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  overflow: hidden;
+}
+
+.qa-preview {
+  padding: 0.75rem;
+}
+
+.qa-head {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #e8a832;
+  margin-bottom: 0.45rem;
+}
+
+.qa-line {
+  font-size: 0.8rem;
+  color: var(--text-1);
+  margin-bottom: 0.5rem;
+}
+
+.qa-chip-row {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.qa-chip {
+  font-size: 0.68rem;
+  color: var(--text-2);
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  border-radius: 999px;
+  padding: 0.18rem 0.48rem;
+}
+
+.frame-topbar {
+  height: 24px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 8px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.frame-topbar i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--text-3);
+  opacity: 0.6;
+}
+
+.frame-topbar span {
+  margin-left: auto;
+  font-size: 0.68rem;
+  color: var(--text-3);
+  font-family: var(--font-mono);
+}
+
+.frame-body {
+  padding: 8px;
+}
+
+.frame-chart {
+  height: 52px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(59,130,246,0.06));
+  border: 1px solid var(--border-light);
+}
+
+.frame-controls {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-top: 7px;
+}
+
+.frame-controls span {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--border-light);
 }
 
 .mod-arrow {
@@ -972,6 +1148,42 @@ const executeCommand = async () => {
   transition: background 0.2s ease, color 0.2s ease;
 }
 
+.terminal-desc {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.terminal-chip {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-1);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  line-height: 1;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+
+.terminal-chip:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+  border-color: var(--text-3);
+}
+
+.terminal-chip:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.terminal-chip-join {
+  color: var(--accent);
+}
+
 /* =========================================
    RESPONSIVE
    ========================================= */
@@ -992,5 +1204,6 @@ const executeCommand = async () => {
   .console  { display: none; }
   .mobile-links { display: flex; }
   .circuit-deco { opacity: 0.2; width: 260px; right: -20px; }
+  .hero-title-row { gap: 0.55rem; }
 }
 </style>

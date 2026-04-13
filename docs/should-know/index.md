@@ -23,3 +23,6 @@ icon: waveform
 
 ## 章节内容
 - [AC 耦合](./ac-coupling.md)
+- [差分信号：以 LVDS 为经典例子](./differential-signaling-lvds.md)
+- [预加重与去加重：高速链路边沿补偿策略](./pre-emphasis-de-emphasis.md)
+- [个人云端极速同步方案](./personal-cloud-sync.md)

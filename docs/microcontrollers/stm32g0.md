@@ -58,6 +58,11 @@ void MX_GPIO_Init(void) {
 - [STM32G0 官方中文产品详情](https://www.st.com/zh/microcontrollers-microprocessors/stm32g0-series.html)
 - [STM32CubeG0 固件包 (GitHub)](https://github.com/STMicroelectronics/STM32CubeG0)
 
+## 6. 相关文章
+
+- [I2C 通信协议：开漏、上拉与时序基础](../protocols/i2c.md)
+- [SPI 总线：高速全双工的暴力美学](../protocols/spi.md)
+
 ---
 
 > 社区共建者 @Admin 分享于 2024-04-08

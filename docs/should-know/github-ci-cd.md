@@ -111,3 +111,9 @@ jobs:
             # 每次部署都会产生被替换掉的无标签(dangling)旧镜像，定期清理能防止服务器硬盘被撑爆
             sudo docker image prune -f
 ```
+
+---
+
+## 相关文章
+
+- [个人云端极速同步方案（Docker + WebDAV + Obsidian）](./personal-cloud-sync.md)

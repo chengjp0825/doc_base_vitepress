@@ -1,32 +1,23 @@
-import { defineConfig } from 'vitepress'
-import markdownItKatex from 'markdown-it-katex'
 import { withMermaid } from 'vitepress-plugin-mermaid'
 
-// 注意：这里直接 export withMermaid，不再在内部嵌套 defineConfig
 export default withMermaid({
   lang: 'zh-CN',
-  title: 'Note Hub',
-  description: '电子工程师的芯片笔记与技术分享',
-
-  // 1. 引入 KaTeX 的 CSS
+  title: 'NoteHub',
+  description: '笔记与技术分享',
   head: [
-    ['link', { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css' }]
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
+    ['link', { rel: 'alternate icon', href: '/favicon.svg' }]
   ],
 
-  // 2. 配置 Markdown 插件
+  // 1. 配置 Markdown
   markdown: {
-    config: (md) => {
-      md.use(markdownItKatex)
-    }
+    math: true
   },
 
-  // Mermaid 插件配置 (可选自定义)
-  mermaid: {
-    // 这里可以根据需要配置主题，例如 'dark' 或 'default'
-  },
+  // Mermaid 插件配置
 
   themeConfig: {
-    logo: '/logo.svg', 
+    logo: '/favicon.svg', 
     lastUpdated: {
       text: '最后更新于'
     },
@@ -36,7 +27,7 @@ export default withMermaid({
       label: 'On this page' // 可选：自定义大纲标题
     },
 
-    // 3. 开启本地搜索
+    // 2. 开启本地搜索
     search: {
       provider: 'local',
       options: {
@@ -55,18 +46,33 @@ export default withMermaid({
       }
     },
 
-    // 4. 导航栏配置
+    // 3. 导航栏配置
     nav: [
       { text: '首页', link: '/' },
+      { text: '投稿规范', link: '/CONTRIBUTING' },
       { text: '那我问你', link: '/interview-questions/' },
-      { text: '你知道的', link: '/should-know/' },
+      { text: '你知道吗', link: '/should-know/' },
       { text: '微控制器', link: '/microcontrollers/' },
       { text: 'FPGA', link: '/fpga/' },
       { text: '通信协议', link: '/protocols/' },
     ],
 
-    // 5. 侧边栏配置
+    // 4. 侧边栏配置
     sidebar: {
+      '/contributing/': [
+        {
+          text: '投稿规范',
+          collapsed: false,
+          items: [
+            { text: '概述', link: '/contributing/' },
+            { text: '模板文件', link: '/TEMPLATE' },
+            { text: '排版与组件', link: '/contributing/formatting' },
+            { text: '内容结构', link: '/contributing/structure' },
+            { text: 'GitHub 新手教程', link: '/contributing/github-guide' },
+            { text: '常见问题', link: '/contributing/faq' },
+          ],
+        },
+      ],
       '/interview-questions/': [
         {
           text: '那我问你',
@@ -102,7 +108,7 @@ export default withMermaid({
       ],
       '/should-know/': [
         {
-          text: '你应该知道',
+          text: '你知道吗',
           collapsed: false,
           items: [
             { text: '概述', link: '/should-know/' },
@@ -114,6 +120,8 @@ export default withMermaid({
           collapsed: false,
           items: [
             { text: 'AC 耦合', link: '/should-know/ac-coupling' },
+            { text: '差分信号', link: '/should-know/differential-signaling-lvds' },
+            { text: '预加重与去加重', link: '/should-know/pre-emphasis-de-emphasis' },
             { text: '滤波器设计', link: '/should-know/filter-design' },
           ],
         },
@@ -122,6 +130,13 @@ export default withMermaid({
           collapsed: false,
           items: [
             { text: 'Github CI/CD', link: '/should-know/github-ci-cd' },
+          ],
+        },
+        {
+          text: '云服务',
+          collapsed: false,
+          items: [
+            { text: '个人云端极速同步方案', link: '/should-know/personal-cloud-sync' },
           ],
         }
       ],
@@ -143,6 +158,16 @@ export default withMermaid({
           items: [
             { text: 'I2C 总线', link: '/protocols/i2c' },
             { text: 'SPI 总线', link: '/protocols/spi' },
+          ],
+        },
+        {
+          text: '网络与远程协议',
+          collapsed: false,
+          items: [
+            { text: 'SSH 协议', link: '/protocols/ssh' },
+            { text: 'HTTP 协议', link: '/protocols/http' },
+            { text: 'SSL/TLS 协议', link: '/protocols/tls' },
+            { text: 'HTTPS 协议', link: '/protocols/https' },
           ],
         },
       ],
