@@ -60,11 +60,13 @@ jobs:
       - name: Install dependencies & Build
         run: |
           npm ci              # 严格依据 package-lock.json 安装依赖，保证环境一致性
-          npm run docs:build  # 执行 VitePress 打包，产物将生成在 docs/.vitepress/dist
+          npm run build       # 执行 VitePress 打包，产物将生成在 docs/.vitepress/dist
         env:
           # 屏蔽环境变量：强制关闭 Husky。因为我们在纯净的 CI 环境中编译，
           # 不需要执行本地的 git pre-commit 钩子，这能消除找不到 .git 目录的报错。
           HUSKY: 0 
+          # 提高 Node 可用堆内存，降低大文档站构建时 OOM 风险。
+          NODE_OPTIONS: --max-old-space-size=4096
 
       # --- 步骤 4：初始化 Docker 高级构建引擎 ---
       - name: Set up Docker Buildx
