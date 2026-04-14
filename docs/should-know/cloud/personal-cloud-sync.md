@@ -150,5 +150,5 @@ docker run -d \
 
 ## 相关文章
 
-- [GitHub Actions 自动化部署（实战工作流）](../git/github-ci-cd.md)
+- [GitHub Actions 自动化部署（实战工作流）](../git/github-action.md)
 - [AC 耦合：高速链路里的“隔直通交”基础能力](../si-pi/ac-coupling.md)

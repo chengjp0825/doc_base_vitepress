@@ -129,7 +129,7 @@ export default withMermaid({
           text: 'Git 版本控制',
           collapsed: false,
           items: [
-            { text: 'Github CI/CD', link: '/should-know/git/github-ci-cd' },
+            { text: 'Github CI/CD', link: '/should-know/git/github-action' },
           ],
         },
         {

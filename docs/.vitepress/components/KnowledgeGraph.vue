@@ -1,12 +1,12 @@
 <template>
-  <div class="kg-wrap" :style="[wrapStyle, { backgroundColor: isDark ? '#000000' : '#ffffff' }]" ref="stageRef">
+  <div class="kg-wrap" :style="wrapStyle" ref="stageRef">
     <canvas ref="canvasRef" class="kg-canvas"></canvas>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
-import { useData } from 'vitepress'
+import { useData, withBase } from 'vitepress'
 
 const props = withDefaults(defineProps<{ height?: number }>(), {
   height: 620
@@ -62,13 +62,13 @@ function hexToRgba(hex: string, alpha: number) {
 
 const fallbackNodes: SeedNode[] = [
   { key: 'page:/should-know/cloud/personal-cloud-sync', label: '个人云端极速同步方案', kind: 'core' },
-  { key: 'page:/should-know/git/github-ci-cd', label: 'GitHub CI/CD', kind: 'project' },
+  { key: 'page:/should-know/git/github-action', label: 'GitHub CI/CD', kind: 'project' },
   { key: 'page:/should-know/si-pi/ac-coupling', label: 'AC 耦合', kind: 'project' },
   { key: 'page:/should-know/si-pi/differential-signaling-lvds', label: '差分信号与 LVDS', kind: 'normal' }
 ]
 
 const fallbackEdges: Array<[string, string]> = [
-  ['page:/should-know/cloud/personal-cloud-sync', 'page:/should-know/git/github-ci-cd'],
+  ['page:/should-know/cloud/personal-cloud-sync', 'page:/should-know/git/github-action'],
   ['page:/should-know/si-pi/ac-coupling', 'page:/should-know/si-pi/differential-signaling-lvds'],
   ['page:/should-know/cloud/personal-cloud-sync', 'page:/should-know/si-pi/ac-coupling']
 ]
@@ -101,6 +101,13 @@ function normalizeRoute(route: string): string {
 
   if (cleaned !== '/' && cleaned.endsWith('/')) cleaned = cleaned.slice(0, -1)
   return cleaned || '/'
+}
+
+function routeToStaticHref(route: string): string {
+  const normalized = normalizeRoute(route)
+  if (!normalized || normalized === '/') return '/'
+  if (normalized.endsWith('/')) return `${normalized}index.html`
+  return `${normalized}.html`
 }
 
 function routeFromFilePath(filePath: string): string {
@@ -573,7 +580,7 @@ onMounted(() => {
     stage.style.cursor = state.hoverNode ? 'pointer' : 'grab'
 
     if (isClick && hit?.route) {
-      window.location.href = hit.route
+      window.location.href = withBase(routeToStaticHref(hit.route))
     } else if (isClick) {
       smoothFocus(hit)
     }
@@ -632,6 +639,7 @@ onUnmounted(() => {
   border-radius: 12px;
   overflow: hidden;
   position: relative;
+  background-color: var(--vp-c-bg);
   transition: background-color 0.4s ease;
 }
 
