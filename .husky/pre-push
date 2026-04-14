@@ -1,3 +1,13 @@
-# Full verification before push to avoid CI surprises.
-echo "[pre-push] Running full dead-link check..."
-npm run check:deadlinks
+# Quick incremental check: validate docs modified in commits being pushed.
+# Avoid full build OOM by checking only changed doc files.
+echo "[pre-push] Checking modified docs in pushed commits..."
+
+if git diff origin/main..HEAD --name-only -- docs | grep -E '\.(md|mdx)$' >/dev/null 2>&1; then
+  echo "[pre-push] Found modified doc files in commits, running link check..."
+  git diff origin/main..HEAD --name-only -- docs | grep -E '\.(md|mdx)$' | while read file; do
+    echo "  - $file"
+  done
+  npm run check:staged-doc-links
+else
+  echo "[pre-push] No doc changes in these commits."
+fi
