@@ -60,8 +60,8 @@ void MX_GPIO_Init(void) {
 
 ## 6. 相关文章
 
-- [I2C 通信协议：开漏、上拉与时序基础](../protocols/i2c.md)
-- [SPI 总线：高速全双工的暴力美学](../protocols/spi.md)
+- [I2C 通信协议：开漏、上拉与时序基础](../protocols/hardware/i2c.md)
+- [SPI 总线：高速全双工的暴力美学](../protocols/hardware/spi.md)
 
 ---
 

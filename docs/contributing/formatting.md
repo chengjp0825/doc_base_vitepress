@@ -180,4 +180,4 @@ $$
 
 ### 参考页面
 
-- [I2C 通信协议](../protocols/i2c.md)
+- [I2C 通信协议](../protocols/hardware/i2c.md)

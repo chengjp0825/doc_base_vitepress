@@ -116,4 +116,4 @@ jobs:
 
 ## 相关文章
 
-- [个人云端极速同步方案（Docker + WebDAV + Obsidian）](./personal-cloud-sync.md)
+- [个人云端极速同步方案（Docker + WebDAV + Obsidian）](../cloud/personal-cloud-sync.md)

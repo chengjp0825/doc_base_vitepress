@@ -67,6 +67,6 @@ ssh -R 9090:127.0.0.1:3000 user@server
 
 ## 5. 相关文章
 
-- [GitHub CI/CD](../should-know/github-ci-cd.md)
-- [个人云端极速同步方案](../should-know/personal-cloud-sync.md)
-- [Linux 应用开发面试题](../interview-questions/linux-app.md)
+- [GitHub CI/CD](../../should-know/git/github-ci-cd.md)
+- [个人云端极速同步方案](../../should-know/cloud/personal-cloud-sync.md)
+- [Linux 应用开发面试题](../../interview-questions/linux-app.md)

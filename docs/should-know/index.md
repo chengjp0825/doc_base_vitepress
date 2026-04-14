@@ -22,7 +22,8 @@ icon: waveform
 - 如何把科普式知识转化为实际工程判断力
 
 ## 章节内容
-- [AC 耦合](./ac-coupling.md)
-- [差分信号：以 LVDS 为经典例子](./differential-signaling-lvds.md)
-- [预加重与去加重：高速链路边沿补偿策略](./pre-emphasis-de-emphasis.md)
-- [个人云端极速同步方案](./personal-cloud-sync.md)
+- [AC 耦合](./si-pi/ac-coupling.md)
+- [差分信号：以 LVDS 为经典例子](./si-pi/differential-signaling-lvds.md)
+- [预加重与去加重：高速链路边沿补偿策略](./si-pi/pre-emphasis-de-emphasis.md)
+- [个人云端极速同步方案](./cloud/personal-cloud-sync.md)
+- [七牛云 + PicGo 实现免费图床实践](./cloud/qiniu-cloud-picgo.md)

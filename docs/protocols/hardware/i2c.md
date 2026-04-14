@@ -247,5 +247,5 @@ I2C 设备地址由 7 位或 10 位组成，后面跟一位读写位 (R/W)。
 
 ## 相关文章
 
-- [STM32G0 系列：入门级 MCU 选型与实践](../microcontrollers/stm32g0.md)
-- [AC 耦合：高速链路中的基础技巧](../should-know/ac-coupling.md)
+- [STM32G0 系列：入门级 MCU 选型与实践](../../microcontrollers/stm32g0.md)
+- [AC 耦合：高速链路中的基础技巧](../../should-know/si-pi/ac-coupling.md)

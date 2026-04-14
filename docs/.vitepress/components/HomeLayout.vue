@@ -135,7 +135,7 @@ const executeCommand = async () => {
           <h1 class="hero-title">NoteHub</h1>
         </div>
         <p class="hero-lead">别在 DataSheet 里单排了，这儿有活人。</p>
-        <p class="hero-sub">基于 Diátaxis 架构的赛博修理铺。拒绝纸上谈兵，专治底层协议死锁、MCU 漏电，以及面试官的无理取闹。</p>
+        <p class="hero-sub">基于 Diátaxis 架构的赛博修理铺。拒绝纸上谈兵，专治三类疑难杂症：软件卡死、硬件漏电，以及面试官的无理取闹。</p>
         <div class="hero-actions">
           <a href="/microcontrollers/" class="btn btn-primary">接入节点</a>
           <a href="/interview-questions/" class="btn btn-secondary">接受拷打</a>
@@ -159,7 +159,7 @@ const executeCommand = async () => {
             <span class="quad-tag tag-blue">Learning · Action</span>
           </div>
           <h3>主线通关</h3>
-          <p>带你从点亮第一颗 LED 到手搓 Linux 驱动底层架构的完整闭环。绝不卖关子，全是经过示波器验证的干货。</p>
+          <p>带你从点亮第一颗 LED 到手搓 Linux 驱动底层架构的完整闭环。绝不卖关子，全是经过验证的干货。</p>
           <div class="quad-bar bar-blue"></div>
         </div>
 
@@ -169,7 +169,7 @@ const executeCommand = async () => {
             <span class="quad-tag tag-orange">Working · Action</span>
           </div>
           <h3>救火手册</h3>
-          <p>深夜排查 GT 收发器死锁？I2C 挂载无响应？别急着摔板子，这里提供针对真实翻车现场的精准排错 SOP，直接抄作业。</p>
+          <p>深夜排查软件BUG？主控跑飞无响应？别急着摔板子，这里提供针对真实翻车现场的精准排错 SOP，直接抄作业。</p>
           <div class="quad-bar bar-orange"></div>
         </div>
 
@@ -179,7 +179,7 @@ const executeCommand = async () => {
             <span class="quad-tag tag-green">Learning · Theory</span>
           </div>
           <h3>设定集</h3>
-          <p>深挖底层逻辑与彩蛋。不仅要知其然，还要扒开 8b/10b 编解码背后那些隐秘的真相。</p>
+          <p>深挖底层逻辑与彩蛋。不仅要知其然，还要扒开各种编解码和协议背后那些隐秘的真相。</p>
           <div class="quad-bar bar-green"></div>
         </div>
 
@@ -207,7 +207,7 @@ const executeCommand = async () => {
           <div class="mod-icon">🎯</div>
           <div class="mod-body">
             <h3>那我问你</h3>
-            <p>面试官的终极拷问模拟器。从 Linux 驱动黑洞到 FPGA 时序地狱，从 C++ 模板魔法到通信协议死锁。每个问题都有标准答案 + 深度解析。</p>
+            <p>面试官的终极拷问模拟器。从 Linux 驱动黑洞到 FPGA 时序地狱，从 C++ 模板魔法到软件协议死锁。每个问题都有标准答案 + 深度解析。</p>
           </div>
           <div class="mod-arrow">→</div>
         </a>
@@ -215,8 +215,8 @@ const executeCommand = async () => {
         <a href="/should-know/" class="mod-card" style="--delay: 5">
           <div class="mod-icon">📚</div>
           <div class="mod-body">
-            <h3>你知道的</h3>
-            <p>那些"本该知道却总是忘记"的硬核基础。从 AC 耦合原理到运算放大器陷阱，从滤波器设计到信号完整性。不是教科书式的背诵，而是工程师在板子上碰壁后总结的血泪经验。</p>
+            <h3>你知道吗</h3>
+            <p>那些"本该知道却总是忘记"的硬核基础。从 AC 耦合原理到服务迁“云”陷阱，从Git版本管理到信号完整性。主打一个非教科书式、不搭嘎的血泪经验。</p>
           </div>
           <div class="mod-arrow">→</div>
         </a>
@@ -283,7 +283,7 @@ const executeCommand = async () => {
           <span class="buff-emoji">🪦</span>
           <div class="buff-text">
             <h4>Bug 墓地</h4>
-            <p>埋葬着无数前辈的血泪史。从 FPGA 综合报错到 CML 串扰，看一眼少掉两根头发。</p>
+            <p>埋葬着无数前辈的血泪史。从 FPGA 综合报错到 insomd 加载失败，看一眼少掉两根头发。</p>
           </div>
         </div>
         <div class="buff-item" style="--delay: 7">
@@ -304,7 +304,7 @@ const executeCommand = async () => {
           <span class="buff-emoji">📈</span>
           <div class="buff-text">
             <h4>波形图社交</h4>
-            <p>屏蔽闲聊水群。逻辑分析仪截图和 PCB 走线就是这里的唯一货币。</p>
+            <p>屏蔽闲聊水群。示波器截图和工程技术就是这里的唯一货币。</p>
           </div>
         </div>
       </div>

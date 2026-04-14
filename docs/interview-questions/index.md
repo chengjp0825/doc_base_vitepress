@@ -44,6 +44,6 @@ mindmap
 
 ::: info 📚 扩展阅读
 - [AC耦合技术详解](../should-know//ac-coupling.md)
-- [I2C通信协议](../protocols/i2c.md)
+- [I2C通信协议](../protocols/hardware/i2c.md)
 - [PCB设计最佳实践](../under-construction)
 :::

@@ -60,4 +60,4 @@ icon: signal
 
 - [差分信号：以 LVDS 为经典例子](./differential-signaling-lvds.md)
 - [AC 耦合](./ac-coupling.md)
-- [I2C 通信协议](../protocols/i2c.md)
+- [I2C 通信协议](../protocols/hardware/i2c.md)

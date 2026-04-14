@@ -61,16 +61,16 @@ function hexToRgba(hex: string, alpha: number) {
 }
 
 const fallbackNodes: SeedNode[] = [
-  { key: 'page:/should-know/personal-cloud-sync', label: '个人云端极速同步方案', kind: 'core' },
-  { key: 'page:/should-know/github-ci-cd', label: 'GitHub CI/CD', kind: 'project' },
-  { key: 'page:/should-know/ac-coupling', label: 'AC 耦合', kind: 'project' },
-  { key: 'page:/should-know/differential-signaling-lvds', label: '差分信号与 LVDS', kind: 'normal' }
+  { key: 'page:/should-know/cloud/personal-cloud-sync', label: '个人云端极速同步方案', kind: 'core' },
+  { key: 'page:/should-know/git/github-ci-cd', label: 'GitHub CI/CD', kind: 'project' },
+  { key: 'page:/should-know/si-pi/ac-coupling', label: 'AC 耦合', kind: 'project' },
+  { key: 'page:/should-know/si-pi/differential-signaling-lvds', label: '差分信号与 LVDS', kind: 'normal' }
 ]
 
 const fallbackEdges: Array<[string, string]> = [
-  ['page:/should-know/personal-cloud-sync', 'page:/should-know/github-ci-cd'],
-  ['page:/should-know/ac-coupling', 'page:/should-know/differential-signaling-lvds'],
-  ['page:/should-know/personal-cloud-sync', 'page:/should-know/ac-coupling']
+  ['page:/should-know/cloud/personal-cloud-sync', 'page:/should-know/git/github-ci-cd'],
+  ['page:/should-know/si-pi/ac-coupling', 'page:/should-know/si-pi/differential-signaling-lvds'],
+  ['page:/should-know/cloud/personal-cloud-sync', 'page:/should-know/si-pi/ac-coupling']
 ]
 
 function normalizePath(path: string): string {

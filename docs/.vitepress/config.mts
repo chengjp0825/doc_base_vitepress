@@ -119,9 +119,9 @@ export default withMermaid({
           text: 'SI/PI 信号与电源完整性',
           collapsed: false,
           items: [
-            { text: 'AC 耦合', link: '/should-know/ac-coupling' },
-            { text: '差分信号', link: '/should-know/differential-signaling-lvds' },
-            { text: '预加重与去加重', link: '/should-know/pre-emphasis-de-emphasis' },
+            { text: 'AC 耦合', link: '/should-know/si-pi/ac-coupling' },
+            { text: '差分信号', link: '/should-know/si-pi/differential-signaling-lvds' },
+            { text: '预加重与去加重', link: '/should-know/si-pi/pre-emphasis-de-emphasis' },
             { text: '滤波器设计', link: '/should-know/filter-design' },
           ],
         },
@@ -129,14 +129,15 @@ export default withMermaid({
           text: 'Git 版本控制',
           collapsed: false,
           items: [
-            { text: 'Github CI/CD', link: '/should-know/github-ci-cd' },
+            { text: 'Github CI/CD', link: '/should-know/git/github-ci-cd' },
           ],
         },
         {
           text: '云服务',
           collapsed: false,
           items: [
-            { text: '个人云端极速同步方案', link: '/should-know/personal-cloud-sync' },
+            { text: '个人云端极速同步方案', link: '/should-know/cloud/personal-cloud-sync' },
+            { text: '七牛云 + PicGo 免费图床实践', link: '/should-know/cloud/qiniu-cloud-picgo' },
           ],
         }
       ],
@@ -156,18 +157,18 @@ export default withMermaid({
           text: '硬件通信协议',
           collapsed: false,
           items: [
-            { text: 'I2C 总线', link: '/protocols/i2c' },
-            { text: 'SPI 总线', link: '/protocols/spi' },
+            { text: 'I2C 总线', link: '/protocols/hardware/i2c' },
+            { text: 'SPI 总线', link: '/protocols/hardware/spi' },
           ],
         },
         {
           text: '网络与远程协议',
           collapsed: false,
           items: [
-            { text: 'SSH 协议', link: '/protocols/ssh' },
-            { text: 'HTTP 协议', link: '/protocols/http' },
-            { text: 'SSL/TLS 协议', link: '/protocols/tls' },
-            { text: 'HTTPS 协议', link: '/protocols/https' },
+            { text: 'SSH 协议', link: '/protocols/network/ssh' },
+            { text: 'HTTP 协议', link: '/protocols/network/http' },
+            { text: 'SSL/TLS 协议', link: '/protocols/network/tls' },
+            { text: 'HTTPS 协议', link: '/protocols/network/https' },
           ],
         },
       ],
