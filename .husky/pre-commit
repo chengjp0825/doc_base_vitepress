@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Run dead-link validation only when docs-related files are staged.
+if git diff --cached --name-only -- docs | grep -E '\.(md|mdx|mts|ts|vue)$' >/dev/null 2>&1; then
+	echo "[pre-commit] Docs changes detected, running dead-link check..."
+	npm run check:deadlinks
+else
+	echo "[pre-commit] No docs changes, skipping dead-link check."
+fi

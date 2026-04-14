@@ -220,4 +220,4 @@ LVDS 是差分思想的经典实现，但不是本文重点。本文的目标是
 ## 相关文章
 
 - [AC 耦合：高速链路里的“隔直通交”基础能力](./ac-coupling.md)
-- [STM32G0 系列：入门级 MCU 选型与实践](../microcontrollers/stm32g0.md)
+- [STM32G0 系列：入门级 MCU 选型与实践](../../microcontrollers/stm32g0.md)
