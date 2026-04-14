@@ -41,6 +41,12 @@ const markdownFiles = (import.meta as ImportMeta & {
   import: 'default'
 }) as Record<string, string>
 
+const indexRouteSet = new Set(
+  Object.keys(markdownFiles)
+    .filter((filePath) => /\/index\.md$/i.test(filePath))
+    .map((filePath) => routeFromFilePath(filePath))
+)
+
 const includePrefixes = [
   '/should-know',
   '/protocols',
@@ -106,6 +112,7 @@ function normalizeRoute(route: string): string {
 function routeToStaticHref(route: string): string {
   const normalized = normalizeRoute(route)
   if (!normalized || normalized === '/') return '/'
+  if (indexRouteSet.has(normalized)) return `${normalized}/`
   if (normalized.endsWith('/')) return `${normalized}index.html`
   return `${normalized}.html`
 }
