@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "vitepress dev docs",
     "build": "vitepress build docs",
+    "check:staged-doc-links": "node scripts/check-staged-doc-links.mjs",
     "check:deadlinks": "vitepress build docs",
     "preview": "vitepress preview docs",
     "prepare": "husky"

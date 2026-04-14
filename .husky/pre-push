@@ -1,0 +1,3 @@
+# Full verification before push to avoid CI surprises.
+echo "[pre-push] Running full dead-link check..."
+npm run check:deadlinks
