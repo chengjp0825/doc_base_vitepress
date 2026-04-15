@@ -627,9 +627,9 @@ while (true) {
 **回调地狱：**
 ```cpp
 // 回调地狱示例
-async_read(file, [](auto data) {
-    async_process(data, [](auto result) {
-        async_write(result, [](auto success) {
+async_read(file, [] (auto data) {
+    async_process(data, [] (auto result) {
+        async_write(result, [] (auto success) {
             // 嵌套回调，难以维护
         });
     });

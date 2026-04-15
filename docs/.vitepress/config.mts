@@ -49,7 +49,6 @@ export default withMermaid({
     // 3. 导航栏配置
     nav: [
       { text: '首页', link: '/' },
-      { text: '投稿规范', link: '/CONTRIBUTING' },
       { text: '那我问你', link: '/interview-questions/' },
       { text: '你知道吗', link: '/should-know/' },
       { text: '微控制器', link: '/microcontrollers/' },
@@ -83,8 +82,8 @@ export default withMermaid({
           collapsed: false,
           base: '/interview-questions/',
           items: [
-            { text: 'Linux驱动开发', link: 'linux-driver' },
-            { text: 'Linux应用开发', link: 'linux-app' }
+            { text: 'Linux驱动开发', link: 'linux/linux-driver' },
+            { text: 'Linux应用开发', link: 'linux/linux-app' }
           ],
         },
         {
@@ -92,7 +91,7 @@ export default withMermaid({
           collapsed: true,
           base: '/interview-questions/',
           items: [
-            { text: 'FPGA开发', link: 'fpga' },
+            { text: 'FPGA开发', link: 'fpga/fpga' },
           ],
         },
         {
@@ -100,20 +99,16 @@ export default withMermaid({
           collapsed: true,
           base: '/interview-questions/',
           items: [
-            { text: 'C/C++编程', link: 'cpp' },
-            { text: '通信协议', link: 'protocols' },
-            { text: '硬件设计', link: 'hardware' },
+            { text: 'C/C++编程', link: 'others/cpp' },
+            { text: '通信协议', link: 'others/protocols' },
+            { text: '硬件设计', link: 'others/hardware' },
           ],
         },
       ],
       '/should-know/': [
         {
           text: '你知道吗',
-          collapsed: false,
-          items: [
-            { text: '概述', link: '/should-know/' },
-            
-          ],
+          link: '/should-know/'
         },
         {
           text: 'SI/PI 信号与电源完整性',
@@ -129,7 +124,7 @@ export default withMermaid({
           text: 'Git 版本控制',
           collapsed: false,
           items: [
-            { text: 'Github CI/CD', link: '/should-know/git/github-action' },
+            { text: 'Github Action', link: '/should-know/git/github-action' },
           ],
         },
         {
@@ -153,6 +148,10 @@ export default withMermaid({
         },
       ],
       '/protocols/': [
+        {
+          text: '通信协议',
+          link: '/protocols/'
+        },
         {
           text: '硬件通信协议',
           collapsed: false,
