@@ -268,29 +268,3 @@
   }
 }
 
-/* Cloud sync article: graph screenshot showcase */
-.vp-doc .cloud-graph-showcase {
-  margin: 1.5rem 0;
-  padding: 0.8rem;
-  border-radius: 14px;
-  border: 1px solid rgba(148, 163, 184, 0.28);
-  background: radial-gradient(circle at 20% 0%, rgba(59, 130, 246, 0.18), rgba(2, 6, 23, 0.96) 42%);
-  box-shadow: 0 14px 34px rgba(2, 6, 23, 0.45);
-}
-
-.vp-doc .cloud-graph-showcase img {
-  display: block;
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
-  border: 1px solid rgba(148, 163, 184, 0.25);
-  background: #020617;
-}
-
-.vp-doc .cloud-graph-showcase figcaption {
-  margin-top: 0.65rem;
-  color: #cbd5e1;
-  font-size: 0.92rem;
-  line-height: 1.6;
-}
-
