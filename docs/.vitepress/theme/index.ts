@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 // docs/.vitepress/theme/index.ts
 import DefaultTheme from 'vitepress/theme'
 import KnowledgeGraph from '../components/KnowledgeGraph.vue'
