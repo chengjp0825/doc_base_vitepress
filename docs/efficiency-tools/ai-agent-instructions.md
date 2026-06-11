@@ -94,7 +94,7 @@ Karpathy 的这份 CLAUDE.md 正是聚焦于这一层面。它不关心具体技
 
 实验设计、测试任务和结果分析详见：
 
-- [Pre-Context](./Pre-Context.md)
+- [Pre-Context](./pre-context.md)
 
 本文重点介绍规则本身及其背后的工程理念，不再展开实验细节。
 
