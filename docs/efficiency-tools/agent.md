@@ -9,8 +9,6 @@ description: 已迁移到 AI Agent 项目指令文件指南
 
 如果你在找项目预上下文、CLAUDE.md 约束和 Karpathy 风格规则，请查看新页面。
 
-<!--
-
 ## CLAUDE.md
 
 一个单一的 CLAUDE.md 文件，用于改善 Claude Code 的行为，源自 Andrej Karpathy 的观察 关于 LLM 编码陷阱的总结。
