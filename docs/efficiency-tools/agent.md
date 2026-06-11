@@ -114,3 +114,5 @@ curl https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/
 ## 相关参考
 
 - [Karpathy-Inspired Claude Code Guidelines](https://github.com/multica-ai/andrej-karpathy-skills/tree/main)
+
+-->
