@@ -54,7 +54,7 @@ export default withMermaid({
       { text: '微控制器', link: '/microcontrollers/' },
       { text: 'FPGA', link: '/fpga/' },
       { text: '通信协议', link: '/protocols/' },
-      { text: '摸鱼工具', link: '/ai-tools/' },
+      { text: '效率工具', link: '/efficiency-tools/' },
     ],
 
     // 4. 侧边栏配置
@@ -137,12 +137,12 @@ export default withMermaid({
           ],
         }
       ],
-      '/ai-tools/': [
+      '/efficiency-tools/': [
         {
           text: '科研与 AI 工具',
           collapsed: false,
           items: [
-            { text: 'AI 工具最佳实践', link: '/ai-tools/' },
+            { text: 'AI 工具最佳实践', link: '/efficiency-tools/' },
           ],
         },
       ],
