@@ -1,11 +1,15 @@
 ---
 title: agent.md 参考
-description: VS Code 代理配置文件的基础写法与使用场景
+description: 已迁移到 AI Agent 项目指令文件指南
 ---
 
 # agent.md 参考
 
-`agent.md` 是用于描述代理工作方式的配置文档，通常会写清楚它的职责边界、可用工具、输出要求，以及遇到冲突时应遵循的优先级。
+此页面已迁移到 [AI Agent 项目指令文件指南](./ai-agent-instructions.md)。
+
+如果你在找项目预上下文、CLAUDE.md 约束和 Karpathy 风格规则，请查看新页面。
+
+<!--
 
 ## CLAUDE.md
 

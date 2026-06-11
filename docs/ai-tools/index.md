@@ -7,7 +7,7 @@ description: 面向工程师与研究者的 AI 工具落地指南
 
 ## 章节索引
 
-- [agent.md 参考](./agent.md)
+- [AI Agent 项目指令文件指南](./ai-agent-instructions.md)
 
 ## 说明
 
